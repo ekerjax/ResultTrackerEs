@@ -8,7 +8,8 @@
 // @grant       GM_xmlhttpRequest
 // @require     https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js
 // @license MIT
-
+// @updateURL https://github.com/COhsrt/ResultTracker/raw/master/resultTracker.user.js
+// @downloadURL https://github.com/COhsrt/ResultTracker/raw/master/resultTracker.user.js
 // ==/UserScript==
 "use strict";
 (function() {
