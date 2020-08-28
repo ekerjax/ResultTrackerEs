@@ -350,7 +350,7 @@
             }
             // Finding everything else...
             for (var regex in ml.otherExpo) {
-                if (content.search(ml) !== -1) {
+                if (content.search(regex) !== -1) {
                     profitDB[identifier] = {'result': resources, 'time': timestamp };
                     saveDB(profitDBName, profitDB);
                     addExpoEntry(ml.otherExpo[regex]);
