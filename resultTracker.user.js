@@ -80,7 +80,7 @@
                 // Delay
                 ".+l.nger dauern.+": 'delay',
                 ".+Versp.tung.+": 'delay',
-                ".+erhelich mehr Zeit.+": 'delay',
+                ".+erheblich mehr Zeit.+": 'delay',
                 ".+Das fremde Schiff explodierte.+": 'delay',
                 ".+das gesamte Deuterium.+": 'delay',
                 // Item
@@ -98,7 +98,7 @@
                 ".+Reatorfehler.+": "nothing",
                 ".+Deuterium-Mangel.+": "nothing",
                 ".+Halluzinationen.+": 'nothing',
-                ".+Sternenwind.+": 'nothing',
+                ".+Sternwind.+": 'nothing',
                 ".+Bestes-Bild-des-Universums-Wettbewerb.+": 'nothing',
                 ".+Leere des Alls.+": 'nothing',
                 ".+Museen deines Hauptplaneten.+": 'nothing',
@@ -106,7 +106,7 @@
                 ".+Strategiespiel.+": 'nothing',
                 ".+Computervirus.+": 'nothing',
                 ".+Dschungelfieber.+": 'nothing',
-                ".+leere H.nden.+": 'nothing',
+                ".+leere.+H.nden.+": 'nothing',
                 // Pirate
                 ".+Sternen-Freibeuter.+": 'pirate',
                 ".+Piratenbasis.+": 'pirate',
@@ -203,6 +203,9 @@
         var reports;
         var currentAPIelements;
         var i;
+        var msgId;
+        var timestamp;
+        var identifier;
 
         const combatElement = document.getElementById('subtabs-nfFleet21');
         const expeditionElement = document.getElementById('subtabs-nfFleet22');
@@ -215,12 +218,15 @@
                     currentAPIelements = reports[i].getElementsByClassName('icon_apikey');
                     if (currentAPIelements.length !== 0) {
                         if (currentAPIelements[0].title.search(crAPIRegex) !== -1) {
+                            msgId = reports[i].getAttribute('data-msg-id');
                             apikeyMatch = currentAPIelements[0].title.match(crAPIRegex);
                             apikey = apikeyMatch[0];
                             if (typeof (profitDB[apikey]) === "undefined") {
                                 // Now we can parse this, as every Battle has an API Key now
                                 queuedReport();
-                                getCR(reports[i].getAttribute('data-msg-id'), apikey);
+                                getCR(msgId, apikey);
+                            } else {
+                                alreadyLogged(msgId);
                             }
                         }
                     }
@@ -234,9 +240,15 @@
                 if (reports[i].getAttribute('data-msg-id') === null) {
                     // message id is missing, this is another field
                 } else {
-                    // lets get ready to rumble...
-                    queuedReport();
-                    parseExpedition(reports[i]);
+                    msgId = reports[i].getAttribute('data-msg-id');
+                    timestamp = parseDate(reports[i].getElementsByClassName('msg_date fright')[0].innerHTML).getTime() / 1000;
+                    identifier = msgId + '' + timestamp;
+                    if (typeof(profitDB[identifier]) === "undefined") {
+                        queuedReport();
+                        parseExpedition(reports[i], msgId, timestamp);
+                    } else {
+                        alreadyLogged(msgId);
+                    }
                 }
             }
         }
@@ -254,6 +266,8 @@
                                 // Now we can parse this, as every Battle has an API Key now
                                 queuedReport();
                                 parseDF(reports[i], apikey);
+                            } else {
+                                alreadyLogged(msgId);
                             }
                         }
                     }
@@ -292,11 +306,9 @@
      * Parses Expedition Details based on HTML contents and Language-Knowledge
      * @param report
      */
-    function parseExpedition(report) {
+    function parseExpedition(report, msgId, timestamp) {
         const ml = multiLang[language];
-        const msgId = report.getAttribute('data-msg-id');
         const content = report.getElementsByClassName('msg_content')[0].innerHTML;
-        const timestamp = parseDate(report.getElementsByClassName('msg_date fright')[0].innerHTML).getTime() / 1000;
         const identifier = msgId + '' + timestamp;
         const shipMap = ml.ships;
         var match;
