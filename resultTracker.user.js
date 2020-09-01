@@ -4,7 +4,7 @@
 // @author      Kalinka
 // @description Result Tracker for Ogame
 // @include     *ogame.gameforge.com/game/*
-// @version     0.1.1
+// @version     0.1.2
 // @grant       GM_xmlhttpRequest
 // @require     https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js
 // @license MIT
@@ -154,7 +154,10 @@
      */
     function createProfitTable() {
         const ml = multiLang[language];
-        const menu = document.getElementById("links");
+        var menuList = document.getElementById("toolbarcomponent");
+        if (menuList == null){
+            menuList = document.getElementById("leftMenu");
+        }
         var table = document.createElement('div');
         table.style = "display:block;float:left;z-index:99999;width:100%";
         var html = "" +
@@ -176,7 +179,7 @@
             "<span>Total: <span id='w-t'>0</span></span>" +
             "</div>";
         table.innerHTML = html;
-        menu.innerHTML += table.outerHTML;
+        menuList.appendChild(table);
         const daily = calcLastDay();
         document.getElementById('d-m').innerText = thousand(daily.metal)
         document.getElementById('d-c').innerText = thousand(daily.crystal);
