@@ -148,7 +148,6 @@
     var reportsToDo = 0;
     var reportsDone = 0;
 
-
     init();
 
     /**
@@ -716,7 +715,6 @@
         reportsToDo++;
         document.getElementById('reportsToDo').innerText = reportsToDo;
     }
-
 
     /**
      * Reads current DB or creates a new one
