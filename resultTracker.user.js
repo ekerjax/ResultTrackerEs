@@ -162,36 +162,41 @@
         table.style = "display:block;float:left;z-index:99999;width:100%";
         var html = "" +
             "<h1 id='header' style='font-size:14px;color:#ffd700;font-weight:bold;background:black;border: 1px solid #383838;border-radius:4px;padding:1px;text-align:center;display:block'>Profits</h1>" +
-            "<h2 style='font-size:12px;color:#ffd700;font-weight:bold;background:black;padding:1px;display:block'>24 hours:</h2>" +
+            "<h2 style='font-size:12px;color:#ffd700;font-weight:bold;background:black;padding:1px;display:block'>" +
+            "Last <input type='text' id='specificTime' value='1' min='1' style='text-align:center;border: 1px solid #383838;border-radius: 4px;padding: 1px; width:30px;'> Hours:" +
+            "</h2>" +
             "<div style='font-size:10px;color:#6f9fc8;display:block;background:black;' id='daily'>" +
-            "<span style='display:block;'>" + ml.resources.metal + ": <span id='d-m'>0</span></span>" +
-            "<span style='display:block;'>" + ml.resources.crystal + ": <span id='d-c'>0</span>" +
-            "<span style='display:block;'>" + ml.resources.deuterium + ": <span id='d-d'>0</span></span>" +
-            "<span style='display:block;'>" + ml.resources.dm + ": <span id='d-dm'>0</span></span>" +
-            "<span>Total: <span id='d-t'>0</span></span>" +
-            "</div>" +
-            "<h2 style='font-size:12px;color:#ffd700;font-weight:bold;background:black;padding:1px;display:block'>7 days:</h2>" +
-            "<div style='font-size:10px;color:#6f9fc8;display:block;background:black;' id='daily'>" +
-            "<span style='display:block;'>" + ml.resources.metal + ": <span id='w-m'>0</span></span>" +
-            "<span style='display:block;'>" + ml.resources.crystal + ": <span id='w-c'>0</span>" +
-            "<span style='display:block;'>" + ml.resources.deuterium + ": <span id='w-d'>0</span></span>" +
-            "<span style='display:block;'>" + ml.resources.dm + ": <span id='w-dm'>0</span></span>" +
-            "<span>Total: <span id='w-t'>0</span></span>" +
-            "</div>";
+            "<span style='display:block;'>" + ml.resources.metal + ": <span id='s-m'>0</span></span>" +
+            "<span style='display:block;'>" + ml.resources.crystal + ": <span id='s-c'>0</span>" +
+            "<span style='display:block;'>" + ml.resources.deuterium + ": <span id='s-d'>0</span></span>" +
+            "<span style='display:block;'>" + ml.resources.dm + ": <span id='s-dm'>0</span></span>" +
+            "<span>Total: <span id='s-t'>0</span></span></div>" +
+            genStats('24 Hours:', 'd') +
+            genStats('7 Days:', 'w') +
+            genStats('28 Days:', 'm');
         table.innerHTML = html;
         menuList.appendChild(table);
-        const daily = calcLastDay();
-        document.getElementById('d-m').innerText = thousand(daily.metal)
-        document.getElementById('d-c').innerText = thousand(daily.crystal);
-        document.getElementById('d-d').innerText = thousand(daily.deuterium);
-        document.getElementById('d-dm').innerText = thousand(daily.dm);
-        document.getElementById('d-t').innerText = thousand(daily.metal + daily.crystal + daily.deuterium);
-        const weekly = calcLastWeek();
-        document.getElementById('w-m').innerText = thousand(weekly.metal)
-        document.getElementById('w-c').innerText = thousand(weekly.crystal);
-        document.getElementById('w-d').innerText = thousand(weekly.deuterium);
-        document.getElementById('w-dm').innerText = thousand(weekly.dm);
-        document.getElementById('w-t').innerText = thousand(weekly.metal + weekly.crystal + weekly.deuterium);
+        calcLastDay();
+        calcLastWeek();
+        calcLastMonth();
+        calcLastHours(1, 's');
+        document.getElementById('specificTime').addEventListener("change",function() {
+            const hours = parseInt(document.getElementById('specificTime').value);
+            calcLastHours(hours, 's');
+        });
+    }
+
+    function genStats(title, prefix) {
+        const ml = multiLang[language];
+        var str = "" +
+            "<h2 style='font-size:12px;color:#ffd700;font-weight:bold;background:black;padding:1px;display:block'>" + title + "</h2>" +
+            "<div style='font-size:10px;color:#6f9fc8;display:block;background:black;' id='daily'>" +
+            "<span style='display:block;'>" + ml.resources.metal + ": <span id='" + prefix + "-m'>0</span></span>" +
+            "<span style='display:block;'>" + ml.resources.crystal + ": <span id='" + prefix + "-c'>0</span>" +
+            "<span style='display:block;'>" + ml.resources.deuterium + ": <span id='" + prefix + "-d'>0</span></span>" +
+            "<span style='display:block;'>" + ml.resources.dm + ": <span id='" + prefix + "-dm'>0</span></span>" +
+            "<span>Total: <span id='" + prefix + "-t'>0</span></span></div>";
+        return str;
     }
 
     /**
@@ -499,11 +504,11 @@
     }
 
     /**
-     * Little helper which calcs last x hours result depending
+     * Little helper which calcs last x hours result and writes it to the expected field
      * @param hours
-     * @returns {{deuterium: number, crystal: number, metal: number, dm: number}}
+     * @param prefix
      */
-    function calcLastHours(hours) {
+    function calcLastHours(hours, prefix) {
         const resources = {'metal': 0, 'crystal': 0, 'deuterium': 0, 'dm': 0};
         const timeAfter = Math.round((Date.now() / 1000) - (hours * 60 * 60));
         for (var id in profitDB) {
@@ -514,23 +519,32 @@
                 resources.dm += profitDB[id].result.dm;
             }
         }
-        return resources;
+        document.getElementById(prefix + '-m').innerText = thousand(resources.metal)
+        document.getElementById(prefix + '-c').innerText = thousand(resources.crystal);
+        document.getElementById(prefix + '-d').innerText = thousand(resources.deuterium);
+        document.getElementById(prefix + '-dm').innerText = thousand(resources.dm);
+        document.getElementById(prefix + '-t').innerText = thousand(resources.metal + resources.crystal + resources.deuterium);
     }
 
     /**
      * Little helper which calcs last days result
-     * @returns {{deuterium: number, crystal: number, metal: number, dm: number}}
      */
     function calcLastDay() {
-        return calcLastHours(24);
+        calcLastHours(24, 'd');
     }
 
     /**
      * Little helper which calcs last weeks result
-     * @returns {{deuterium: number, crystal: number, metal: number, dm: number}}
      */
     function calcLastWeek() {
-        return calcLastHours(7*24);
+        calcLastHours(7*24, 'w');
+    }
+
+    /**
+     * Little helper which calcs last months result
+     */
+    function calcLastMonth() {
+        calcLastHours(7*24*4, 'm');
     }
 
     /**
