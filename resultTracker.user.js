@@ -252,7 +252,7 @@
                 radius: 100,
                 indexLabelFontSize: 12,
                 yValueFormatString: "##0.00\"%\"",
-                indexLabel: "{label}({z}/"+total+"): {y}",
+                indexLabel: "{label} ({z}/"+total+"): {y}",
                 dataPoints: stats,
             }]
         });
