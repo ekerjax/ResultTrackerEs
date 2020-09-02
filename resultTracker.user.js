@@ -4,9 +4,10 @@
 // @author      Kalinka
 // @description Result Tracker for Ogame
 // @include     *ogame.gameforge.com/game/*
-// @version     0.1.3
+// @version     0.2.0
 // @grant       GM_xmlhttpRequest
 // @require     https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js
+// @require     https://canvasjs.com/assets/script/canvasjs.min.js
 // @license MIT
 // @updateURL https://github.com/COhsrt/ResultTracker/raw/master/resultTracker.user.js
 // @downloadURL https://github.com/COhsrt/ResultTracker/raw/master/resultTracker.user.js
@@ -118,6 +119,19 @@
                 ".+Wurmloch.+": 'speedup',
                 ".+beschleunigt.+": 'speedup',
             },
+            expoTypes: {
+                'alien': 'Aliens',
+                'delay': 'Verzögerung',
+                'item': 'Gegenstand',
+                'loss': 'Totalverlust',
+                'merchant': 'Händler',
+                'nothing': 'Nichts',
+                'pirate': 'Piraten',
+                'speedup': 'Beschleunigung',
+                'dm': 'Dunkle Materie',
+                'resource': 'Rohstoffe',
+                'ship': 'Schiffe'
+            },
             dateRegex: '(\\d{2})\\.(\\d{2})\\.(\\d{4}) (\\d{2}):(\\d{2}):(\\d{2})',
             dateKeys: [3, 2, 1, 4, 5, 6],
 
@@ -173,7 +187,10 @@
             "<span>Total: <span id='s-t'>0</span></span></div>" +
             genStats('24 Hours:', 'd') +
             genStats('7 Days:', 'w') +
-            genStats('28 Days:', 'm');
+            genStats('28 Days:', 'm') +
+            "<div>" +
+            "<a class='btn_blue' id='openExpoChart'>Expo Chart</a>"
+            "</div>";
         table.innerHTML = html;
         menuList.appendChild(table);
         calcLastDay();
@@ -184,8 +201,73 @@
             const hours = parseInt(document.getElementById('specificTime').value);
             calcLastHours(hours, 's');
         });
+        document.getElementById('openExpoChart').addEventListener('click', function() {
+           createExpoChart();
+        });
     }
 
+    /**
+     * Creates an Expo Chart
+     */
+    function createExpoChart() {
+        const ml = multiLang[language];
+        var total = 0;
+        var type;
+        const stats = [];
+        const body = document.getElementById('ingamepage');
+        var d = document.createElement('div');
+        d.style = "width:600px;height:550px;position:absolute;z-index:20;top:50%;left:50%;margin:-250px 0 0 -250px;background-color:black;";
+        d.id = "expoChartDiv";
+        body.appendChild(d);
+        var x = document.createElement('span');
+        x.innerHTML = "<b>X</b>";
+        x.style = "font-size:14px;width:20px;height:20px;top:0px;right:0px;color:red;position:absolute;"
+        x.addEventListener('click', function () {
+            document.getElementById('expoChartDiv').style.visibility = "hidden";
+        });
+        d.appendChild(x);
+        var chart = document.createElement('span');
+        chart.id="chart-container";
+        chart.style="width:580px;height:520px;top:20px;position:absolute;";
+        d.appendChild(chart);
+
+        for (type in expoDB) {
+            total = total + expoDB[type];
+        }
+        for (type in expoDB) {
+            stats.push({
+                y: expoDB[type]/total*100,
+                label: ml.expoTypes[type],
+                z: expoDB[type]
+            });
+        }
+        var chart = new CanvasJS.Chart("chart-container", {
+            animationEnabled: false,
+            toolTipContent: "{label}({z})/"+total+": <strong>{y}%</strong>",
+            title: {
+                text: ""
+            },
+            data: [{
+                type: "pie",
+                startAngle: 240,
+                radius: 100,
+                indexLabelFontSize: 12,
+                yValueFormatString: "##0.00\"%\"",
+                indexLabel: "{label}({z}/"+total+"): {y}",
+                dataPoints: stats,
+            }]
+        });
+        chart.render();
+        document.getElementsByClassName('canvasjs-chart-credit')[0].style='display: none;';
+        document.getElementsByClassName('canvasjs-chart-canvas')[0].style='margin-left:5px;';
+    }
+
+    /**
+     * Generates generic Statsoutput with title and id-prefix for spans
+     * @param title
+     * @param prefix
+     * @returns {string}
+     */
     function genStats(title, prefix) {
         const ml = multiLang[language];
         var str = "" +
