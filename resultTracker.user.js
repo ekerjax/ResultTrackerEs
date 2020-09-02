@@ -4,7 +4,7 @@
 // @author      Kalinka
 // @description Result Tracker for Ogame
 // @include     *ogame.gameforge.com/game/*
-// @version     0.2.1
+// @version     0.2.2
 // @grant       GM_xmlhttpRequest
 // @require     https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js
 // @require     https://canvasjs.com/assets/script/canvasjs.min.js
@@ -189,7 +189,7 @@
             genStats('7 Days:', 'w') +
             genStats('28 Days:', 'm') +
             "<div>" +
-            "<a class='btn_blue' id='openExpoChart'>Expo Chart</a>"
+            "<a class='btn_blue' id='openExpoChart'>Expo Chart</a>" +
             "</div>";
         table.innerHTML = html;
         menuList.appendChild(table);
@@ -202,7 +202,7 @@
             calcLastHours(hours, 's');
         });
         document.getElementById('openExpoChart').addEventListener('click', function() {
-           createExpoChart();
+            createExpoChart();
         });
     }
 
@@ -508,25 +508,25 @@
             const end = data.search("var attackerJson") - 12;
             const jsonData = data.substring(start, end);
             const reportData = JSON.parse(jsonData);
-            const loot = reportData.loot;
+            var loot = reportData.loot;
             const repair = reportData.repairedDefenses;
             if (reportData.wreckfield) {
                 const wreckfield = reportData.wreckfield.ships;
             }
-            const myLoss = getEmptyShipList();
+            var myLoss = getEmptyShipList();
             const timestamp = reportData.event_timestamp;
             // Get possible attackerIds / defenderIds
             const fleetIds = [];
             var defender = false;
             var attacker = false;
             for (key in reportData.attacker) {
-                if (playerId === reportData.attacker[key].ownerId) {
+                if (playerId === reportData.attacker[key].ownerID) {
                     fleetIds.push(key);
                     attacker = true;
                 }
             }
             for (key in reportData.defender) {
-                if (playerId === reportData.defender[key].ownerId) {
+                if (playerId === reportData.defender[key].ownerID) {
                     fleetIds.push(key);
                     defender = true;
                 }
@@ -536,15 +536,15 @@
             for (key in attLastRound.losses) {
                 if (fleetIds.indexOf(key) !== -1) {
                     for (shipType in attLastRound.losses[key]) {
-                        myLoss[shipType] += parseInt(attLastRound.losses[key][shipType]);
+                        myLoss[parseInt(shipType)] += parseInt(attLastRound.losses[key][shipType]);
                     }
                 }
             }
             const defLastRound = reportData.defenderJSON.combatRounds[reportData.defenderJSON.combatRounds.length -1];
-            for (key in attLastRound.losses) {
+            for (key in defLastRound.losses) {
                 if (fleetIds.indexOf(key) !== -1) {
                     for (shipType in defLastRound.losses[key]) {
-                        myLoss[shipType] += parseInt(defLastRound.losses[key][shipType]);
+                        myLoss[parseInt(shipType)] += parseInt(defLastRound.losses[key][shipType]);
                     }
                 }
             }
