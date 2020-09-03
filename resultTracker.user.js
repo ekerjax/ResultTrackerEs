@@ -4,7 +4,7 @@
 // @author      Kalinka
 // @description Result Tracker for Ogame
 // @include     *ogame.gameforge.com/game/*
-// @version     0.2.1
+// @version     0.2.4
 // @grant       GM_xmlhttpRequest
 // @require     https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js
 // @require     https://canvasjs.com/assets/script/canvasjs.min.js
@@ -561,6 +561,7 @@
         // define key for loops
         var key;
         var shipType;
+        var resources = {'metal': 0, 'crystal': 0, 'deuterium': 0, 'dm':0 };
         if(data.search("var combatData") !== -1 && data.search("var attackerJson") !== -1) {
             // Get start and end of JSON + Extract JSON
             const start = data.search("var combatData") + 35;
@@ -607,21 +608,25 @@
                     }
                 }
             }
-            // Take loot as a base
-            var resources = {"metal": loot.metal, "crystal": loot.crystal, "deuterium": loot.deuterium, 'dm': 0};
 
-            // Remove lost Units from loot resources
-            resources = getLostUnits(resources, myLoss);
-
-            // If we are defending, we also have to add back the wreckfield and repairs...
+            // If we are defending, we also have to add back the wreckfield and repairs to the lost loot...
             if (defender) {
+                resources = {"metal": loot.metal * -1, "crystal": loot.crystal * -1, "deuterium": loot.deuterium * -1, 'dm': 0};
                 if (typeof(wreckfield) != "undefined") {
                     resources = getResurectedUnits(resources, wreckfield);
                 }
                 if (typeof(repair) != "undefined") {
                     resources = getResurectedUnits(resources, repair);
                 }
+            } else {
+                // if we are the attacker, we just take the loot as a base
+                resources = {"metal": loot.metal, "crystal": loot.crystal, "deuterium": loot.deuterium, 'dm': 0};
             }
+
+            // Remove lost Units from loot resources
+            resources = getLostUnits(resources, myLoss);
+
+
             // Store it to the DB, change counter
             profitDB[apikey] = {'result': resources, 'time': timestamp };
             saveDB(profitDBName, profitDB);
