@@ -4,7 +4,7 @@
 // @author      Kalinka
 // @description Result Tracker for Ogame
 // @include     *ogame.gameforge.com/game/*
-// @version     0.2.3
+// @version     0.2.1
 // @grant       GM_xmlhttpRequest
 // @require     https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js
 // @require     https://canvasjs.com/assets/script/canvasjs.min.js
@@ -890,7 +890,6 @@
         const data = JSON.parse(localStorage.getItem('NRT_dfDB'));
         // Sample: "rr-de-122-a7732118a16ee6aad6b891416e7946dcb41cd7d9":{"timestamp":1597820306,"coordinates":"3:496:16","metal":105708600,"crystal":51479600}
         for (var key in data) {
-            console.log('[Processing NRT_dfDB]: ' + key);
             if (data[key].metal !== 0 || data[key].crystal !== 0) {
                 profitDB[key] = {
                     'result': {'metal': data[key].metal, 'crystal': data[key].crystal, 'deuterium': 0, 'dm': 0},
@@ -899,21 +898,26 @@
             }
         }
         saveDB(profitDBName, profitDB);
+        localStorage.removeItem('NRT_dfDB');
     }
 
     function import_NRT_profitDB() {
         // Sample:
         // "cr-de-122-ba3975c9ea0a049129e3c70f7d3866ee17fd03ce":{"timestamp":1597818661,"attackerid":"136963,","defenderid":"131054,","coordinates":{"galaxy":3,"system":379,"position":12,"planetType":1},"loot":{"metal":1080898,"crystal":689794,"deuterium":463685},"df":{"metalTotal":0,"crystalTotal":0,"metalRecycledAfterCombat":0,"crystalRecycledAfterCombat":0,"metal":0,"crystal":0,"darkMatter":0},"attackerloss":{"202":0,"203":0,"204":0,"205":0,"206":0,"207":0,"208":0,"209":0,"210":0,"211":0,"212":0,"213":0,"214":0,"215":0,"217":0,"218":0,"219":0,"401":0,"402":0,"403":0,"404":0,"405":0,"406":0,"407":0,"408":0},"defenderloss":{"202":0,"203":0,"204":0,"205":0,"206":0,"207":0,"208":0,"209":0,"210":0,"211":0,"212":0,"213":0,"214":0,"215":0,"217":0,"218":0,"219":0,"401":0,"402":0,"403":0,"404":0,"405":0,"406":0,"407":0,"408":0},"repaired":[],"wreckfield":{}},
         var resources;
+        var attacker = false;
+        var defender = false;
         const data = JSON.parse(localStorage.getItem('NRT_profitDB'));
         for (var key in data) {
-            console.log('[Processing NRT_profitDB]: ' + key);
-            if (data[key].attackerid === playerId) {
-                resources = {"metal": loot.metal, "crystal": loot.crystal, "deuterium": loot.deuterium, 'dm': 0};
+            attacker = false;
+            defender = false;
+            if (parseInt(data[key].attackerid) === playerId) {
+                resources = {"metal": data[key].loot.metal, "crystal": data[key].loot.crystal, "deuterium": data[key].loot.deuterium, 'dm': 0};
                 resources = getLostUnits(resources, data[key].attackerloss);
+                attacker = true;
             }
-            if (data[key].defenderid === playerId) {
-                resources = {"metal": loot.metal * -1, "crystal": loot.crystal * -1, "deuterium": loot.deuterium * -1, 'dm': 0};
+            if (parseInt(data[key].defenderid) === playerId) {
+                resources = {"metal": data[key].loot.metal * -1, "crystal": data[key].loot.crystal * -1, "deuterium": data[key].loot.deuterium * -1, 'dm': 0};
                 resources = getLostUnits(resources, data[key].defenderloss);
                 if (typeof(data[key].wreckfield != "undefined" && data[key].wreckfield.length != 0)) {
                     resources = getResurectedUnits(resources, data[key].wreckfield);
@@ -921,19 +925,23 @@
                 if (typeof(data[key].repaired != "undefined" && data[key].repaired.length != 0)) {
                     resources = getResurectedUnits(resources, data[key].wreckfield);
                 }
+                defender = true;
             }
-            profitDB[key] = {'result': resources, 'time': data[key].timestamp};
+            if (attacker || defender) {
+                profitDB[key] = {'result': resources, 'time': data[key].timestamp};
+            }
         }
         saveDB(profitDBName, profitDB);
+        localStorage.removeItem('NRT_profitDB');
     }
 
     function import_NET_profitDB() {
         var resources;
         var i;
         var shipList;
+        var error = false;
         const data  = JSON.parse(localStorage.getItem('NET_profitDB'));
         for (var key in data) {
-            console.log('[Processing NET_profitDB]: ' + key);
             resources = {"metal": 0, "crystal": 0, "deuterium": 0, 'dm': 0};
             if (data[key].Result === 'Fleet') {
                 shipList = getEmptyShipList();
@@ -973,9 +981,14 @@
                 addExpoEntry('merchant');
             } else {
                 console.log("this isn't meant to happen!");
+                console.log(data[key]);
+                error = true;
             }
         }
         saveDB(profitDBName, profitDB);
+        if (!error) {
+            localStorage.removeItem('NET_profitDB');
+        }
     }
 
     function shipNameToId(name) {
