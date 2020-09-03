@@ -4,7 +4,7 @@
 // @author      Kalinka
 // @description Result Tracker for Ogame
 // @include     *ogame.gameforge.com/game/*
-// @version     0.2.2
+// @version     0.2.3
 // @grant       GM_xmlhttpRequest
 // @require     https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js
 // @require     https://canvasjs.com/assets/script/canvasjs.min.js
@@ -136,6 +136,44 @@
             dateRegex: '(\\d{2})\\.(\\d{2})\\.(\\d{4}) (\\d{2}):(\\d{2}):(\\d{2})',
             dateKeys: [3, 2, 1, 4, 5, 6],
 
+        },
+        es: {
+            ships: { // All Ships which can be found by Expedition
+                'Nave pequeña de carga': 202,
+                'Nave grande de carga': 203,
+                'Cazador ligero': 204,
+                'Cazador pesado': 205,
+                'Crucero': 206,
+                'Nave de batalla': 207,
+                'Sonda de espionaje': 210,
+                'Bombardero': 211,
+                'Destructor': 213,
+                'Acorazado': 215,
+                'Segador': 218,
+                'Explorador': 219
+            },
+            resources: {
+                'metal': 'Metal',
+                'crystal': 'Cristal',
+                'deuterium': 'Deuterio',
+                'dm': 'Materia Oscura'
+            },
+            otherExpo: {},
+            expoTypes: {
+                'alien': '',
+                'delay': '',
+                'item': '',
+                'loss': '',
+                'merchant': '',
+                'nothing': '',
+                'pirate': '',
+                'speedup': '',
+                'dm': ' ',
+                'resource': '',
+                'ship': ''
+            },
+            dateRegex: '(\\d{2})\\.(\\d{2})\\.(\\d{4}) (\\d{2}):(\\d{2}):(\\d{2})',
+            dateKeys: [3, 2, 1, 4, 5, 6],
         }
     };
 
@@ -168,6 +206,7 @@
      */
     function createProfitTable() {
         const ml = multiLang[language];
+        var nixian = false;
         var menuList = document.getElementById("toolbarcomponent");
         if (menuList == null){
             menuList = document.getElementById("leftMenu");
@@ -189,8 +228,19 @@
             genStats('7 Days:', 'w') +
             genStats('28 Days:', 'm') +
             "<div>" +
-            "<a class='btn_blue' id='openExpoChart'>Expo Chart</a>" +
+            "<a class='btn_blue' id='openExpoChart'>Expo Chart</a>"
+        "</div>";
+        if (((localStorage.getItem('NRT_dfDB') != null) && localStorage.getItem('NRT_dfDB').length > 50) ||
+            ((localStorage.getItem('NRT_profitDB') != null) &&localStorage.getItem('NRT_profitDB').length > 50) ||
+            ((localStorage.getItem('NET_profitDB') != null) &&localStorage.getItem('NET_profitDB').length > 50)) {
+            nixian = true;
+            html +=
+                "<div>" +
+                "<a class='btn_blue' id='importNixian'>Import Nixian Data</a>"
             "</div>";
+        }
+
+
         table.innerHTML = html;
         menuList.appendChild(table);
         calcLastDay();
@@ -204,6 +254,15 @@
         document.getElementById('openExpoChart').addEventListener('click', function() {
             createExpoChart();
         });
+        if (nixian) {
+            document.getElementById('importNixian').addEventListener('click', function() {
+                //saveDB(profitDBName + '_bak', profitDB);
+                //saveDB(expoDBName + '_bak', expoDB);
+                import_NET_profitDB();
+                import_NRT_profitDB();
+                import_NRT_dfDB();
+            });
+        }
     }
 
     /**
@@ -825,6 +884,114 @@
             }
             return new Date(str);
         }
+    }
+
+    function import_NRT_dfDB() {
+        const data = JSON.parse(localStorage.getItem('NRT_dfDB'));
+        // Sample: "rr-de-122-a7732118a16ee6aad6b891416e7946dcb41cd7d9":{"timestamp":1597820306,"coordinates":"3:496:16","metal":105708600,"crystal":51479600}
+        for (var key in data) {
+            console.log('[Processing NRT_dfDB]: ' + key);
+            if (data[key].metal !== 0 || data[key].crystal !== 0) {
+                profitDB[key] = {
+                    'result': {'metal': data[key].metal, 'crystal': data[key].crystal, 'deuterium': 0, 'dm': 0},
+                    'time': data[key].timestamp
+                }
+            }
+        }
+        saveDB(profitDBName, profitDB);
+    }
+
+    function import_NRT_profitDB() {
+        // Sample:
+        // "cr-de-122-ba3975c9ea0a049129e3c70f7d3866ee17fd03ce":{"timestamp":1597818661,"attackerid":"136963,","defenderid":"131054,","coordinates":{"galaxy":3,"system":379,"position":12,"planetType":1},"loot":{"metal":1080898,"crystal":689794,"deuterium":463685},"df":{"metalTotal":0,"crystalTotal":0,"metalRecycledAfterCombat":0,"crystalRecycledAfterCombat":0,"metal":0,"crystal":0,"darkMatter":0},"attackerloss":{"202":0,"203":0,"204":0,"205":0,"206":0,"207":0,"208":0,"209":0,"210":0,"211":0,"212":0,"213":0,"214":0,"215":0,"217":0,"218":0,"219":0,"401":0,"402":0,"403":0,"404":0,"405":0,"406":0,"407":0,"408":0},"defenderloss":{"202":0,"203":0,"204":0,"205":0,"206":0,"207":0,"208":0,"209":0,"210":0,"211":0,"212":0,"213":0,"214":0,"215":0,"217":0,"218":0,"219":0,"401":0,"402":0,"403":0,"404":0,"405":0,"406":0,"407":0,"408":0},"repaired":[],"wreckfield":{}},
+        var resources;
+        const data = JSON.parse(localStorage.getItem('NRT_profitDB'));
+        for (var key in data) {
+            console.log('[Processing NRT_profitDB]: ' + key);
+            if (data[key].attackerid === playerId) {
+                resources = {"metal": loot.metal, "crystal": loot.crystal, "deuterium": loot.deuterium, 'dm': 0};
+                resources = getLostUnits(resources, data[key].attackerloss);
+            }
+            if (data[key].defenderid === playerId) {
+                resources = {"metal": loot.metal * -1, "crystal": loot.crystal * -1, "deuterium": loot.deuterium * -1, 'dm': 0};
+                resources = getLostUnits(resources, data[key].defenderloss);
+                if (typeof(data[key].wreckfield != "undefined" && data[key].wreckfield.length != 0)) {
+                    resources = getResurectedUnits(resources, data[key].wreckfield);
+                }
+                if (typeof(data[key].repaired != "undefined" && data[key].repaired.length != 0)) {
+                    resources = getResurectedUnits(resources, data[key].wreckfield);
+                }
+            }
+            profitDB[key] = {'result': resources, 'time': data[key].timestamp};
+        }
+        saveDB(profitDBName, profitDB);
+    }
+
+    function import_NET_profitDB() {
+        var resources;
+        var i;
+        var shipList;
+        const data  = JSON.parse(localStorage.getItem('NET_profitDB'));
+        for (var key in data) {
+            console.log('[Processing NET_profitDB]: ' + key);
+            resources = {"metal": 0, "crystal": 0, "deuterium": 0, 'dm': 0};
+            if (data[key].Result === 'Fleet') {
+                shipList = getEmptyShipList();
+                for (i in data[key]) {
+                    if (shipNameToId(i) !== 0) {
+                        shipList[shipNameToId(i)] = data[key][i];
+                    }
+                }
+                resources = getResurectedUnits(resources, shipList);
+                profitDB[key] = {'result': resources, 'time': data[key].Timestamp};
+                addExpoEntry('ship');
+            } else if (data[key].Result === 'Resource') {
+                resources = {"metal": data[key].Metal, "crystal": data[key].Crystal,
+                    "deuterium": data[key].Deuterium, 'dm': data[key].DM};
+                profitDB[key] = {'result': resources, 'time': data[key].Timestamp};
+                addExpoEntry('resource');
+            } else if(data[key].Result === 'DM') {
+                resources = {"metal": data[key].Metal, "crystal": data[key].Crystal,
+                    "deuterium": data[key].Deuterium, 'dm': data[key].DM};
+                profitDB[key] = {'result': resources, 'time': data[key].Timestamp};
+                addExpoEntry('dm');
+            } else if (data[key].Result === 'Pirate') {
+                addExpoEntry('pirate');
+            } else if (data[key].Result === 'Item') {
+                addExpoEntry('item');
+            } else if (data[key].Result === 'Nothing') {
+                addExpoEntry('nothing');
+            } else if (data[key].Result === 'Alien') {
+                addExpoEntry('alien');
+            } else if (data[key].Result === 'Speedup') {
+                addExpoEntry('speedup');
+            } else if (data[key].Result === 'Delay') {
+                addExpoEntry('delay');
+            } else if (data[key].Result === 'Expedition loss') {
+                addExpoEntry('loss');
+            } else if (data[key].Result === 'Merchant') {
+                addExpoEntry('merchant');
+            } else {
+                console.log("this isn't meant to happen!");
+            }
+        }
+        saveDB(profitDBName, profitDB);
+    }
+
+    function shipNameToId(name) {
+        if (name === 'Small Cargo') { return 202;}
+        if (name === 'Large Cargo') { return 203;}
+        if (name === 'Light Fighter') { return 204;}
+        if (name === 'Heavy Fighter') { return 205;}
+        if (name === 'Cruiser') { return 206;}
+        if (name === 'Battleship') { return 207;}
+        if (name === 'Espionage Probe') { return 210;}
+        if (name === 'Bomber') { return 211;}
+        if (name === 'Destroyer') { return 213;}
+        if (name === 'Battlecruiser') { return 215;}
+        if (name === 'Reaper') { return 218;}
+        if (name === 'Pathfinder') { return 219;}
+        return 0;
     }
 
 })();
