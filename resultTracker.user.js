@@ -4,7 +4,7 @@
 // @author      Kalinka
 // @description Result Tracker for Ogame
 // @include     *ogame.gameforge.com/game/*
-// @version     0.2.4
+// @version     0.2.5
 // @grant       GM_xmlhttpRequest
 // @require     https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js
 // @require     https://canvasjs.com/assets/script/canvasjs.min.js
@@ -235,7 +235,7 @@
             ((localStorage.getItem('NET_profitDB') != null) &&localStorage.getItem('NET_profitDB').length > 50)) {
             nixian = true;
             html +=
-                "<div>" +
+                "<div id='nixButton'>" +
                 "<a class='btn_blue' id='importNixian'>Import Nixian Data</a>" +
                 "</div>";
         }
@@ -259,6 +259,7 @@
                 import_NET_profitDB();
                 import_NRT_profitDB();
                 import_NRT_dfDB();
+                document.getElementById('nixButton').style.visibility = "hidden";
             });
         }
     }
