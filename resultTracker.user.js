@@ -228,16 +228,16 @@
             genStats('7 Days:', 'w') +
             genStats('28 Days:', 'm') +
             "<div>" +
-            "<a class='btn_blue' id='openExpoChart'>Expo Chart</a>"
-        "</div>";
+            "<a class='btn_blue' id='openExpoChart'>Expo Chart</a>" +
+            "</div>";
         if (((localStorage.getItem('NRT_dfDB') != null) && localStorage.getItem('NRT_dfDB').length > 50) ||
             ((localStorage.getItem('NRT_profitDB') != null) &&localStorage.getItem('NRT_profitDB').length > 50) ||
             ((localStorage.getItem('NET_profitDB') != null) &&localStorage.getItem('NET_profitDB').length > 50)) {
             nixian = true;
             html +=
                 "<div>" +
-                "<a class='btn_blue' id='importNixian'>Import Nixian Data</a>"
-            "</div>";
+                "<a class='btn_blue' id='importNixian'>Import Nixian Data</a>" +
+                "</div>";
         }
 
 
@@ -256,8 +256,6 @@
         });
         if (nixian) {
             document.getElementById('importNixian').addEventListener('click', function() {
-                //saveDB(profitDBName + '_bak', profitDB);
-                //saveDB(expoDBName + '_bak', expoDB);
                 import_NET_profitDB();
                 import_NRT_profitDB();
                 import_NRT_dfDB();
@@ -891,9 +889,11 @@
         }
     }
 
+    /**
+     * Imports Nixians debrisField Database and removes it
+     */
     function import_NRT_dfDB() {
         const data = JSON.parse(localStorage.getItem('NRT_dfDB'));
-        // Sample: "rr-de-122-a7732118a16ee6aad6b891416e7946dcb41cd7d9":{"timestamp":1597820306,"coordinates":"3:496:16","metal":105708600,"crystal":51479600}
         for (var key in data) {
             if (data[key].metal !== 0 || data[key].crystal !== 0) {
                 profitDB[key] = {
@@ -906,9 +906,10 @@
         localStorage.removeItem('NRT_dfDB');
     }
 
+    /**
+     * Imports Nixians Combat Profit Database and removes it.
+     */
     function import_NRT_profitDB() {
-        // Sample:
-        // "cr-de-122-ba3975c9ea0a049129e3c70f7d3866ee17fd03ce":{"timestamp":1597818661,"attackerid":"136963,","defenderid":"131054,","coordinates":{"galaxy":3,"system":379,"position":12,"planetType":1},"loot":{"metal":1080898,"crystal":689794,"deuterium":463685},"df":{"metalTotal":0,"crystalTotal":0,"metalRecycledAfterCombat":0,"crystalRecycledAfterCombat":0,"metal":0,"crystal":0,"darkMatter":0},"attackerloss":{"202":0,"203":0,"204":0,"205":0,"206":0,"207":0,"208":0,"209":0,"210":0,"211":0,"212":0,"213":0,"214":0,"215":0,"217":0,"218":0,"219":0,"401":0,"402":0,"403":0,"404":0,"405":0,"406":0,"407":0,"408":0},"defenderloss":{"202":0,"203":0,"204":0,"205":0,"206":0,"207":0,"208":0,"209":0,"210":0,"211":0,"212":0,"213":0,"214":0,"215":0,"217":0,"218":0,"219":0,"401":0,"402":0,"403":0,"404":0,"405":0,"406":0,"407":0,"408":0},"repaired":[],"wreckfield":{}},
         var resources;
         var attacker = false;
         var defender = false;
@@ -940,6 +941,9 @@
         localStorage.removeItem('NRT_profitDB');
     }
 
+    /**
+     * Imports Nixians Expedition Profit Database and removes it.
+     */
     function import_NET_profitDB() {
         var resources;
         var i;
