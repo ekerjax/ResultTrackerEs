@@ -4,7 +4,7 @@
 // @author      Kalinka
 // @description Result Tracker for Ogame
 // @include     *ogame.gameforge.com/game/*
-// @version     0.2.5
+// @version     0.3.0
 // @grant       GM_xmlhttpRequest
 // @require     https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js
 // @require     https://canvasjs.com/assets/script/canvasjs.min.js
