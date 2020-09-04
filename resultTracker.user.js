@@ -953,46 +953,40 @@
         const data  = JSON.parse(localStorage.getItem('NET_profitDB'));
         for (var key in data) {
             resources = {"metal": 0, "crystal": 0, "deuterium": 0, 'dm': 0};
-            if (data[key].Result === 'Fleet') {
-                shipList = getEmptyShipList();
-                for (i in data[key]) {
-                    if (shipNameToId(i) !== 0) {
-                        shipList[shipNameToId(i)] = data[key][i];
+            switch(data[key].Result) {
+                case 'Fleet':
+                    shipList = getEmptyShipList();
+                    for (i in data[key]) {
+                        if (shipNameToId(i) !== 0) {
+                            shipList[shipNameToId(i)] = data[key][i];
+                        }
                     }
-                }
-                resources = getResurectedUnits(resources, shipList);
-                profitDB[key] = {'result': resources, 'time': data[key].Timestamp};
-                addExpoEntry('ship');
-            } else if (data[key].Result === 'Resource') {
-                resources = {"metal": data[key].Metal, "crystal": data[key].Crystal,
-                    "deuterium": data[key].Deuterium, 'dm': data[key].DM};
-                profitDB[key] = {'result': resources, 'time': data[key].Timestamp};
-                addExpoEntry('resource');
-            } else if(data[key].Result === 'DM') {
-                resources = {"metal": data[key].Metal, "crystal": data[key].Crystal,
-                    "deuterium": data[key].Deuterium, 'dm': data[key].DM};
-                profitDB[key] = {'result': resources, 'time': data[key].Timestamp};
-                addExpoEntry('dm');
-            } else if (data[key].Result === 'Pirate') {
-                addExpoEntry('pirate');
-            } else if (data[key].Result === 'Item') {
-                addExpoEntry('item');
-            } else if (data[key].Result === 'Nothing') {
-                addExpoEntry('nothing');
-            } else if (data[key].Result === 'Alien') {
-                addExpoEntry('alien');
-            } else if (data[key].Result === 'Speedup') {
-                addExpoEntry('speedup');
-            } else if (data[key].Result === 'Delay') {
-                addExpoEntry('delay');
-            } else if (data[key].Result === 'Expedition loss') {
-                addExpoEntry('loss');
-            } else if (data[key].Result === 'Merchant') {
-                addExpoEntry('merchant');
-            } else {
-                console.log("this isn't meant to happen!");
-                console.log(data[key]);
-                error = true;
+                    resources = getResurectedUnits(resources, shipList);
+                    profitDB[key] = {'result': resources, 'time': data[key].Timestamp};
+                    addExpoEntry('ship');
+                    break;
+                case 'Resource':
+                    resources = {"metal": data[key].Metal, "crystal": data[key].Crystal, "deuterium": data[key].Deuterium, 'dm': data[key].DM};
+                    profitDB[key] = {'result': resources, 'time': data[key].Timestamp};
+                    addExpoEntry('resource');
+                    break;
+                case 'DM':
+                    resources = {"metal": data[key].Metal, "crystal": data[key].Crystal, "deuterium": data[key].Deuterium, 'dm': data[key].DM};
+                    profitDB[key] = {'result': resources, 'time': data[key].Timestamp};
+                    addExpoEntry('dm');
+                    break;
+                case 'Pirate':          addExpoEntry('pirate'); break;
+                case 'Item':            addExpoEntry('item'); break;
+                case 'Nothing':         addExpoEntry('nothing'); break;
+                case 'Alien':           addExpoEntry('alien'); break;
+                case 'Speedup':         addExpoEntry('speedup'); break;
+                case 'Delay':           addExpoEntry('delay'); break;
+                case 'Expedition loss': addExpoEntry('loss'); break;
+                case 'Merchant':        addExpoEntry('merchant'); break;
+                default:
+                    console.log("this isn't meant to happen!");
+                    console.log(data[key]);
+                    error = true;
             }
         }
         saveDB(profitDBName, profitDB);
@@ -1001,20 +995,27 @@
         }
     }
 
+    /**
+     * Converts english Ship Name to it's ID
+     * @param name
+     * @returns {number}
+     */
     function shipNameToId(name) {
-        if (name === 'Small Cargo') { return 202;}
-        if (name === 'Large Cargo') { return 203;}
-        if (name === 'Light Fighter') { return 204;}
-        if (name === 'Heavy Fighter') { return 205;}
-        if (name === 'Cruiser') { return 206;}
-        if (name === 'Battleship') { return 207;}
-        if (name === 'Espionage Probe') { return 210;}
-        if (name === 'Bomber') { return 211;}
-        if (name === 'Destroyer') { return 213;}
-        if (name === 'Battlecruiser') { return 215;}
-        if (name === 'Reaper') { return 218;}
-        if (name === 'Pathfinder') { return 219;}
-        return 0;
+        switch(name) {
+            case 'Small Cargo':         return 202;
+            case 'Large Cargo':         return 203;
+            case 'Light Fighter':       return 204;
+            case 'Heavy Fighter':       return 205;
+            case 'Cruiser':             return 206;
+            case 'Battleship':          return 207;
+            case 'Espionage Probe':     return 210;
+            case 'Bomber':              return 211;
+            case 'Destroyer':           return 213;
+            case 'Battlecruiser':       return 215;
+            case 'Reaper':              return 218;
+            case 'Pathfinder':          return 219;
+            default:                    return 0;
+        }
     }
 
 })();
