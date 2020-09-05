@@ -174,6 +174,65 @@
             },
             dateRegex: '(\\d{2})\\.(\\d{2})\\.(\\d{4}) (\\d{2}):(\\d{2}):(\\d{2})',
             dateKeys: [3, 2, 1, 4, 5, 6],
+        },
+        en: {
+            ships: { // All Ships which can be found by Expedition
+                'Small Cargo': 202,
+                'Large Cargo': 203,
+                'Light Fighter': 204,
+                'Heavy Fighter': 205,
+                'Cruiser': 206,
+                'Battleship': 207,
+                'Espionage Probe': 210,
+                'Bomber': 211,
+                'Destroyer': 213,
+                'Battlecruiser': 215,
+                'Reaper': 218,
+                'Pathfinder': 219
+            },
+            resources: {
+                'metal': 'Metal',
+                'crystal': 'Crystal',
+                'deuterium': 'Deuterium',
+                'dm': 'Dark Matter'
+            },
+            otherExpo: {
+                // Delay
+                //
+                //
+                ".+big delay.+": 'delay',
+                //
+                //
+                // Nothing
+                //
+                //
+                ".+had way too little Deuterium.+": 'nothing',
+                //
+                //
+                ".+Best Picture Of The Universe.+": 'nothing',
+                //
+                //
+                //
+                //
+                //
+                //
+                //
+            },
+            expoTypes: {
+                'alien': 'Aliens',
+                'delay': 'Delay',
+                'item': 'Item',
+                'loss': 'Expedition Loss',
+                'merchant': 'Merchant',
+                'nothing': 'Nothing',
+                'pirate': 'Pirate',
+                'speedup': 'Speedup',
+                'dm': 'Dark Matter',
+                'resource': 'Resource',
+                'ship': 'Ships'
+            },
+            dateRegex: '(\\d{2})\\.(\\d{2})\\.(\\d{4}) (\\d{2}):(\\d{2}):(\\d{2})',
+            dateKeys: [3, 2, 1, 4, 5, 6],
         }
     };
 
@@ -488,7 +547,7 @@
             var resourceRegex;
             var resourceFound = false;
             for (var r in ml.resources) {
-                resourceRegex = ml.resources[r] + ' ([0-9\\.]{1,11}) [A-Za-z]{3,40}\\.';
+                resourceRegex = ml.resources[r] + ' ([0-9\\.]{1,11}) [A-Za-z ]{3,40}\\.';
                 if (content.search(resourceRegex) !== -1) {
                     match = content.match(resourceRegex);
                     resources[r] += parseInt(match[1].split('.').join(""));
