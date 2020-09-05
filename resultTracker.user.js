@@ -97,7 +97,7 @@
                 ".+Tauschwaren.+": 'merchant',
                 // Nothing
                 ".+Sumpfplaneten.+": "nothing",
-                ".+Reatorfehler.+": "nothing",
+                ".+Reaktorfehler.+": "nothing",
                 ".+Deuterium-Mangel.+": "nothing",
                 ".+Halluzinationen.+": 'nothing',
                 ".+Sternwind.+": 'nothing',
@@ -201,7 +201,7 @@
                 //
                 //
                 ".+big delay.+": 'delay',
-                //
+                ".+foreign ship exploded.+": 'delay',
                 //
                 // Nothing
                 //
