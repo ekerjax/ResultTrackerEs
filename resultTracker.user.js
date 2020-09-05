@@ -204,14 +204,21 @@
                 ".+foreign ship exploded.+": 'delay',
                 //
                 // Nothing
-                //
+                ".+unknown marsh planet.+": 'nothing',
                 //
                 ".+had way too little Deuterium.+": 'nothing',
-                //
+                ".+hallucination.+": 'nothing',
                 //
                 ".+Best Picture Of The Universe.+": 'nothing',
                 //
                 //
+                //
+                //
+                //
+                ".+high fever.+": 'nothing',
+                ".+without any results.+": 'nothing',
+                // Pirates
+                ".+space pirates.+": 'pirate',
                 //
                 //
                 //
