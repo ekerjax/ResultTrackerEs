@@ -205,7 +205,7 @@
                 //
                 // Nothing
                 ".+unknown marsh planet.+": 'nothing',
-                //
+                ".+flagships reactor core nearly.+": 'nothing',
                 ".+had way too little Deuterium.+": 'nothing',
                 ".+hallucination.+": 'nothing',
                 //
