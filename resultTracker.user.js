@@ -203,6 +203,9 @@
                 ".+big delay.+": 'delay',
                 ".+foreign ship exploded.+": 'delay',
                 //
+                // Item
+                //
+                ".+artefact.+": 'item',
                 // Nothing
                 ".+unknown marsh planet.+": 'nothing',
                 ".+flagships reactor core nearly.+": 'nothing',
@@ -211,7 +214,7 @@
                 //
                 ".+Best Picture Of The Universe.+": 'nothing',
                 //
-                //
+                ".+museums of your home planet.+": 'nothing',
                 //
                 //
                 //
