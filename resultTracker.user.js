@@ -4,7 +4,7 @@
 // @author      Kalinka
 // @description Result Tracker for Ogame
 // @include     *ogame.gameforge.com/game/*
-// @version     0.3.1
+// @version     0.3.2
 // @grant       GM_xmlhttpRequest
 // @require     https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js
 // @require     https://canvasjs.com/assets/script/canvasjs.min.js
@@ -197,35 +197,49 @@
                 'dm': 'Dark Matter'
             },
             otherExpo: {
+                // Alien
+                //
+                //
+                //
+                ".+unknown species.+": 'alien',
+                //
                 // Delay
-                //
-                //
-                ".+big delay.+": 'delay',
+                ".+going to take longer than thought.+": 'delay',
+                ".+delay.+": 'delay',
+                ".+take a lot more time.+": 'delay',
                 ".+foreign ship exploded.+": 'delay',
+                ".+later than expected.+": 'delay',
                 //
                 // Item
-                //
+                ".+item.+": 'item',
                 ".+artefact.+": 'item',
+                // Merchant
+                //
+                ".+representative with goods.+": 'item',
                 // Nothing
                 ".+unknown marsh planet.+": 'nothing',
                 ".+flagships reactor core nearly.+": 'nothing',
                 ".+had way too little Deuterium.+": 'nothing',
                 ".+hallucination.+": 'nothing',
-                //
+                ".+some solar wind.+": 'nothing',
                 ".+Best Picture Of The Universe.+": 'nothing',
                 //
                 ".+museums of your home planet.+": 'nothing',
                 //
                 //
-                //
+                ".+computer virus.+": 'nothing',
                 ".+high fever.+": 'nothing',
-                ".+without any results.+": 'nothing',
+                ".+without any results.+": 'nothing', // <-- probably other position in "nothing"
+                ".+empty handed.+": 'nothing',
                 // Pirates
                 ".+space pirates.+": 'pirate',
                 //
                 //
+                ".+ pirates.+": 'pirate',
                 //
-                //
+                ".+primitive barbarians.+": 'pirate',
+                // Speedup
+                ".+wormhole.+": 'speedup',
                 //
             },
             expoTypes: {
