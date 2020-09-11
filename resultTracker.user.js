@@ -4,7 +4,7 @@
 // @author      Kalinka
 // @description Result Tracker for Ogame
 // @include     *ogame.gameforge.com/game/*
-// @version     0.3.2
+// @version     0.3.3
 // @grant       GM_xmlhttpRequest
 // @require     https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js
 // @require     https://canvasjs.com/assets/script/canvasjs.min.js
@@ -202,20 +202,20 @@
                 //
                 //
                 ".+unknown species.+": 'alien',
-                //
+                ".+aggressors.+": 'alien',
                 // Delay
                 ".+going to take longer than thought.+": 'delay',
                 ".+delay.+": 'delay',
                 ".+take a lot more time.+": 'delay',
                 ".+foreign ship exploded.+": 'delay',
-                ".+later than expected.+": 'delay',
-                //
+                ".+(later|longer) than expected.+": 'delay',
+                ".+all the Deuterium.+": 'delay',
                 // Item
                 ".+item.+": 'item',
                 ".+artefact.+": 'item',
                 // Merchant
-                //
-                ".+representative with goods.+": 'item',
+                ".+exclusive client.+": 'merchant',
+                ".+representative with goods.+": 'merchant',
                 // Nothing
                 ".+unknown marsh planet.+": 'nothing',
                 ".+flagships reactor core nearly.+": 'nothing',
@@ -223,7 +223,7 @@
                 ".+hallucination.+": 'nothing',
                 ".+some solar wind.+": 'nothing',
                 ".+Best Picture Of The Universe.+": 'nothing',
-                //
+                ".+emptiness of space.+": 'nothing',
                 ".+museums of your home planet.+": 'nothing',
                 //
                 //
@@ -240,7 +240,7 @@
                 ".+primitive barbarians.+": 'pirate',
                 // Speedup
                 ".+wormhole.+": 'speedup',
-                //
+                ".+earlier than expected.+": 'speedup',
             },
             expoTypes: {
                 'alien': 'Aliens',
