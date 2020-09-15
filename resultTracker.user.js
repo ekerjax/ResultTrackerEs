@@ -198,9 +198,9 @@
             },
             otherExpo: {
                 // Alien
-                //
-                //
-                //
+                ".+alien race.+": 'alien',
+                ".+unknown ships.+": 'alien',
+                ".+exotic looking ships.+": 'alien',
                 ".+unknown species.+": 'alien',
                 ".+aggressors.+": 'alien',
                 // Delay
@@ -519,7 +519,7 @@
         const content = report.getElementsByClassName('msg_content')[0].innerHTML;
         const timestamp = parseDate(report.getElementsByClassName('msg_date fright')[0].innerHTML).getTime() / 1000;
         const debrisRegex = rr + ' ' + mlR.metal + ' .+ ' + rr + ' ' + mlR.crystal + ' .+ ' + rr + ' ' + mlR.metal +
-            ' .+ ' + rr + ' ' + mlR.crystal + ' .+';
+            ' .+ ' + rr + ' ' + mlR.crystal + '.+';
         if (content.search(debrisRegex) !== -1) {
             const match = content.match(debrisRegex);
             const resources = {"metal": 0, "crystal": 0, "deuterium": 0, 'dm': 0};
