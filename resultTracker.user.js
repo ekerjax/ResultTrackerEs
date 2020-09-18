@@ -4,7 +4,7 @@
 // @author      Kalinka
 // @description Result Tracker for Ogame
 // @include     *ogame.gameforge.com/game/*
-// @version     0.3.3
+// @version     0.3.4
 // @grant       GM_xmlhttpRequest
 // @require     https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js
 // @require     https://canvasjs.com/assets/script/canvasjs.min.js
@@ -213,6 +213,10 @@
                 // Item
                 ".+item.+": 'item',
                 ".+artefact.+": 'item',
+                // Loss
+                ".+black hole.+": 'loss',
+                //
+                //
                 // Merchant
                 ".+exclusive client.+": 'merchant',
                 ".+representative with goods.+": 'merchant',
@@ -392,7 +396,7 @@
                 type: "pie",
                 startAngle: 240,
                 radius: 100,
-                indexLabelFontSize: 12,
+                indexLabelFontSize: 10,
                 yValueFormatString: "##0.00\"%\"",
                 indexLabel: "{label} ({z}/"+total+"): {y}",
                 dataPoints: stats,
