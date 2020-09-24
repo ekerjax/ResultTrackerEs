@@ -52,20 +52,6 @@
     const language = document.getElementsByTagName('meta')['ogame-language'].content;
     const multiLang = {
         de: {
-            ships: { // All Ships which can be found by Expedition
-                'Kleiner Transporter': 202,
-                'Großer Transporter': 203,
-                'Leichter Jäger': 204,
-                'Schwerer Jäger': 205,
-                'Kreuzer': 206,
-                'Schlachtschiff': 207,
-                'Spionagesonde': 210,
-                'Bomber': 211,
-                'Zerstörer': 213,
-                'Schlachtkreuzer': 215,
-                'Reaper': 218,
-                'Pathfinder': 219
-            },
             resources: {
                 'metal': 'Metall',
                 'crystal': 'Kristall',
@@ -138,20 +124,6 @@
 
         },
         es: {
-            ships: { // All Ships which can be found by Expedition
-                'Nave pequeña de carga': 202,
-                'Nave grande de carga': 203,
-                'Cazador ligero': 204,
-                'Cazador pesado': 205,
-                'Crucero': 206,
-                'Nave de batalla': 207,
-                'Sonda de espionaje': 210,
-                'Bombardero': 211,
-                'Destructor': 213,
-                'Acorazado': 215,
-                'Segador': 218,
-                'Explorador': 219
-            },
             resources: {
                 'metal': 'Metal',
                 'crystal': 'Cristal',
@@ -176,20 +148,6 @@
             dateKeys: [3, 2, 1, 4, 5, 6],
         },
         en: {
-            ships: { // All Ships which can be found by Expedition
-                'Small Cargo': 202,
-                'Large Cargo': 203,
-                'Light Fighter': 204,
-                'Heavy Fighter': 205,
-                'Cruiser': 206,
-                'Battleship': 207,
-                'Espionage Probe': 210,
-                'Bomber': 211,
-                'Destroyer': 213,
-                'Battlecruiser': 215,
-                'Reaper': 218,
-                'Pathfinder': 219
-            },
             resources: {
                 'metal': 'Metal',
                 'crystal': 'Crystal',
@@ -236,8 +194,8 @@
                 ".+without any results.+": 'nothing', // <-- probably other position in "nothing"
                 ".+empty handed.+": 'nothing',
                 // Pirates
+                ".+Star Buccaneers.+": 'pirate',
                 ".+space pirates.+": 'pirate',
-                //
                 //
                 ".+ pirates.+": 'pirate',
                 //
@@ -267,8 +225,12 @@
     // Database stuff
     const profitDBName = 'ogameProfitDB';
     const expoDBName = 'ogameExpoDB';
+    const shipDBName = 'ogameShipDB';
+    const minShip = 202;
+    const maxShip = 220;
     var profitDB;
     var expoDB;
+    var shipDB;
 
     // Counter
     var reportsToDo = 0;
@@ -282,10 +244,34 @@
     function init() {
         profitDB = getOrCreateDB(profitDBName);
         expoDB = getOrCreateDB(expoDBName);
+        shipDB = getOrCreateDB(shipDBName);
+
+        if (Object.keys(shipDB).length === 0) {
+            genShipDB();
+        }
         createProfitTable();
         if (window.location.search.indexOf("?page=messages") !== -1){
             createButtonMessages();
         }
+    }
+
+    /**
+     * Generates ShipDatabase
+     */
+    function genShipDB() {
+        fetch('/api/localization.xml').then(function (response) {
+            return response.text();
+        })
+        .then (function (data) {
+            let parser = new DOMParser();
+            let xmlDoc = parser.parseFromString(data, 'text/xml');
+            for (let i = minShip; i < maxShip; i++) {
+                if (xmlDoc.getElementById(i)) {
+                    shipDB[xmlDoc.getElementById(i).innerHTML] = i;
+                }
+            }
+            saveDB(shipDBName, shipDB);
+        });
     }
 
     /**
@@ -545,7 +531,6 @@
         const ml = multiLang[language];
         const content = report.getElementsByClassName('msg_content')[0].innerHTML;
         const identifier = msgId + '' + timestamp;
-        const shipMap = ml.ships;
         var match;
         var resources = {"metal": 0, "crystal": 0, "deuterium": 0, 'dm': 0};
         // Everything which is worth a profit
@@ -554,11 +539,11 @@
             var shipRegex;
             var shipFound = false;
             var shipList = getEmptyShipList();
-            for (var ship in shipMap) {
+            for (var ship in shipDB) {
                 shipRegex = ship + ': (\\d+)\\<br\\>'
                 if (content.search(shipRegex) !== -1) {
                     match = content.match(shipRegex);
-                    shipList[shipMap[ship]] += parseInt(match[1]);
+                    shipList[shipDB[ship]] += parseInt(match[1]);
                     shipFound = true;
                 }
             }
