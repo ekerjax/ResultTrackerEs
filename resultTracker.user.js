@@ -78,6 +78,7 @@
                 ".+Zzzrrt.+": "loss",
                 ".+r.tseln noch immer.+verloren.+": "loss",
                 ".+Kernbruch.+": 'loss',
+                ".+ffnenden schwarzen Loch.+": 'loss',
                 // Merchant
                 ".+Exklusivkunden.+": "merchant",
                 ".+Tauschwaren.+": 'merchant',
