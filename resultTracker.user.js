@@ -4,7 +4,7 @@
 // @author      Kalinka
 // @description Result Tracker for Ogame
 // @include     *ogame.gameforge.com/game/*
-// @version     0.5.0+no2
+// @version     0.5.0+no3
 // @grant       GM_xmlhttpRequest
 // @require     https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js
 // @require     https://canvasjs.com/assets/script/canvasjs.min.js
@@ -257,6 +257,7 @@
                 ".+store tomheten i rommet.+": 'nothing',
                 ".+P. grunn av dette ble mye Deuterium brukt opp .+": 'nothing',
                 ".+kapteinens bursdags.+": 'nothing',
+                ".+massive hallusinasjoner.+": 'nothing',
                 // Pirates
                 ".+primitive barbarer.+": 'pirate',
                 ".+ pirater.+": 'pirate',
