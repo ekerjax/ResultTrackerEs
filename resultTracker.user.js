@@ -234,6 +234,7 @@
                 ".+feilkalkullert.+": 'delay',
                 ".+ekspedisjonen ikke kan fortsette med skadene .+": 'delay',
                 ".+Fl.ten vil komme tilbake senere enn forventet.+": 'delay',
+                ".+returnere med en stor forsinkelse.+": 'delay',
                 // Item
                 ".+item.+": 'item',
                 ".+artefact.+": 'item',
@@ -243,6 +244,7 @@
                 ".+for at fl.ten er tapt for alltid.+": 'loss',
                 ".+kjedereaksjon+.": 'loss',
                 // Merchant
+                ".+ekslusive klient.+": 'merchant',
                 // Nothing
                 ".+tilbake tomhendt.+": 'nothing',
                 ".+fordi de ikke hadde nok Deuterium.+": 'nothing',
@@ -253,8 +255,11 @@
                 ".+komputer virus.+": 'nothing',
                 ".+Beste Bildet.+": 'nothing',
                 ".+store tomheten i rommet.+": 'nothing',
+                ".+P. grunn av dette ble mye Deuterium brukt opp .+": 'nothing',
+                ".+kapteinens bursdags.+": 'nothing',
                 // Pirates
                 ".+primitive barbarer.+": 'pirate',
+                ".+ pirater .+": 'pirate',
                 // Speedup
             },
             expoTypes: {
