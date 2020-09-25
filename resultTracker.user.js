@@ -4,7 +4,7 @@
 // @author      Kalinka
 // @description Result Tracker for Ogame
 // @include     *ogame.gameforge.com/game/*
-// @version     0.4.1
+// @version     0.5.0
 // @grant       GM_xmlhttpRequest
 // @require     https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js
 // @require     https://canvasjs.com/assets/script/canvasjs.min.js
@@ -354,7 +354,7 @@
             genStats('7 Days:', 'w') +
             genStats('28 Days:', 'm') +
             "<div>" +
-            "<a class='btn_blue' id='openExpoChart'>Expo Chart</a>" +
+            "<a class='btn_blue' id='openExpoChart'>Expo Stats Chart</a>" +
             "</div>";
         if (((localStorage.getItem('NRT_dfDB') != null) && localStorage.getItem('NRT_dfDB').length > 50) ||
             ((localStorage.getItem('NRT_profitDB') != null) &&localStorage.getItem('NRT_profitDB').length > 50) ||
@@ -365,7 +365,6 @@
                 "<a class='btn_blue' id='importNixian'>Import Nixian Data</a>" +
                 "</div>";
         }
-
 
         table.innerHTML = html;
         menuList.appendChild(table);
@@ -399,21 +398,45 @@
         var type;
         const stats = [];
         const body = document.getElementById('ingamepage');
-        var d = document.createElement('div');
-        d.style = "width:600px;height:550px;position:absolute;z-index:20;top:50%;left:50%;margin:-250px 0 0 -250px;background-color:black;";
-        d.id = "expoChartDiv";
-        body.appendChild(d);
-        var x = document.createElement('span');
-        x.innerHTML = "<b>X</b>";
-        x.style = "font-size:14px;width:20px;height:20px;top:0px;right:0px;color:red;position:absolute;"
-        x.addEventListener('click', function () {
-            document.getElementById('expoChartDiv').style.visibility = "hidden";
+        var container = document.createElement('div');
+        var titlebar = document.createElement('div');
+        var titleSpan = document.createElement('span');
+        var titleClose = document.createElement('button');
+        var titleCloseThick = document.createElement('span');
+        var contentWrapper = document.createElement('div');
+        var content = document.createElement('div');
+
+        container.style = 'height: 400px; width: 30%; top: 20%; left: 30%;';
+        container.className = 'ui-dialog ';
+
+        titlebar.className = 'ui-dialog-titlebar ui-helper-clearfix';
+        container.appendChild(titlebar);
+
+        titleSpan.id = 'ui-id-2';
+        titleSpan.className = 'ui-dialog-title';
+        titleSpan.innerText = 'Expedition Stats Chart';
+        titlebar.appendChild(titleSpan);
+
+        titleClose.type = 'button';
+        titleClose.className = 'ui-button ui-dialog-titlebar-close';
+        titleClose.role = 'button';
+        titleClose.title = '';
+        titlebar.appendChild(titleClose);
+
+        titleCloseThick.className = 'ui-icon ui-icon-closethick';
+        titleClose.appendChild(titleCloseThick);
+
+        contentWrapper.className = 'ui-dialog-content';
+        container.appendChild(contentWrapper);
+
+        content.id = 'content';
+        contentWrapper.appendChild(content);
+
+        body.appendChild(container);
+
+        titleCloseThick.addEventListener('click', function () {
+            container.remove();
         });
-        d.appendChild(x);
-        var chart = document.createElement('span');
-        chart.id="chart-container";
-        chart.style="width:580px;height:520px;top:20px;position:absolute;";
-        d.appendChild(chart);
 
         for (type in expoDB) {
             total = total + expoDB[type];
@@ -425,7 +448,7 @@
                 z: expoDB[type]
             });
         }
-        var chart = new CanvasJS.Chart("chart-container", {
+        var chart = new CanvasJS.Chart("content", {
             animationEnabled: false,
             toolTipContent: "{label}({z})/"+total+": <strong>{y}%</strong>",
             title: {
