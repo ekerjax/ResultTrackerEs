@@ -87,7 +87,7 @@
                 ".+Reaktorfehler.+": "nothing",
                 ".+Deuterium-Mangel.+": "nothing",
                 ".+Halluzinationen.+": 'nothing',
-                ".+Sternwind.+": 'nothing',
+                ".+Sternwind.+": 'nothing', // maybe a delay?
                 ".+Bestes-Bild-des-Universums-Wettbewerb.+": 'nothing',
                 ".+Leere des Alls.+": 'nothing',
                 ".+Museen deines Hauptplaneten.+": 'nothing',
@@ -231,13 +231,30 @@
             otherExpo: {
                 // Alien
                 // Delay
+                ".+feilkalkullert.+": 'delay',
+                ".+ekspedisjonen ikke kan fortsette med skadene .+": 'delay',
+                ".+Fl.ten vil komme tilbake senere enn forventet.+": 'delay',
                 // Item
                 ".+item.+": 'item',
                 ".+artefact.+": 'item',
                 // Loss
+                ".+svart hull.+": 'loss',
+                ".+Zzzrrt.+": 'loss',
+                ".+for at fl.ten er tapt for alltid.+": 'loss',
+                ".+kjedereaksjon+.": 'loss',
                 // Merchant
                 // Nothing
+                ".+tilbake tomhendt.+": 'nothing',
+                ".+fordi de ikke hadde nok Deuterium.+": 'nothing',
+                ".+store tomheten.+": 'nothing',
+                ".+uten . ha gjennomf.rt noe.+": 'nothing',
+                ".+sump planet.+": 'nothing',
+                ".+museer p. din hjem planet.+": 'nothing',
+                ".+komputer virus.+": 'nothing',
+                ".+Beste Bildet.+": 'nothing',
+                ".+store tomheten i rommet.+": 'nothing',
                 // Pirates
+                ".+primitive barbarer.+": 'pirate',
                 // Speedup
             },
             expoTypes: {
