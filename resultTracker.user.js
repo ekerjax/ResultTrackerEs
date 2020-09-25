@@ -4,7 +4,7 @@
 // @author      Kalinka
 // @description Result Tracker for Ogame
 // @include     *ogame.gameforge.com/game/*
-// @version     0.4.0
+// @version     0.4.1
 // @grant       GM_xmlhttpRequest
 // @require     https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js
 // @require     https://canvasjs.com/assets/script/canvasjs.min.js
@@ -217,6 +217,41 @@
                 'dm': 'Dark Matter',
                 'resource': 'Resource',
                 'ship': 'Ships'
+            },
+            dateRegex: '(\\d{2})\\.(\\d{2})\\.(\\d{4}) (\\d{2}):(\\d{2}):(\\d{2})',
+            dateKeys: [3, 2, 1, 4, 5, 6],
+        },
+        no: {
+            resources: {
+                'metal': 'Metall',
+                'crystal': 'Krystall',
+                'deuterium': 'Deuterium',
+                'dm': 'Mørkt Materiale'
+            },
+            otherExpo: {
+                // Alien
+                // Delay
+                // Item
+                ".+item.+": 'item',
+                ".+artefact.+": 'item',
+                // Loss
+                // Merchant
+                // Nothing
+                // Pirates
+                // Speedup
+            },
+            expoTypes: {
+                'alien': 'Alien/Romvesener',
+                'delay': 'Delay/forsinkelse',
+                'item': 'Item/Punkt',
+                'loss': 'Expedition Loss/totalt tap',
+                'merchant': 'Merchant/Kjøpmann',
+                'nothing': 'Nothing/Ingenting',
+                'pirate': 'Pirate/Sjørøver',
+                'speedup': 'Speedup/Forkortelse',
+                'dm': 'Dark Matter/Mørkt Materiale',
+                'resource': 'Resource/Ressurs',
+                'ship': 'Ships/Skip'
             },
             dateRegex: '(\\d{2})\\.(\\d{2})\\.(\\d{4}) (\\d{2}):(\\d{2}):(\\d{2})',
             dateKeys: [3, 2, 1, 4, 5, 6],
