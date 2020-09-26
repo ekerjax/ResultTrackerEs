@@ -4,7 +4,7 @@
 // @author      Kalinka
 // @description Result Tracker for Ogame
 // @include     *ogame.gameforge.com/game/*
-// @version     0.5.0+no3
+// @version     0.5.0+no4
 // @grant       GM_xmlhttpRequest
 // @require     https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js
 // @require     https://canvasjs.com/assets/script/canvasjs.min.js
@@ -235,6 +235,7 @@
                 ".+ekspedisjonen ikke kan fortsette med skadene .+": 'delay',
                 ".+Fl.ten vil komme tilbake senere enn forventet.+": 'delay',
                 ".+returnere med en stor forsinkelse.+": 'delay',
+                ".+Hjemreisen vil ta litt lengre.+": 'delay',
                 // Item
                 ".+item.+": 'item',
                 ".+artefact.+": 'item',
@@ -246,6 +247,7 @@
                 // Merchant
                 ".+ekslusive klient.+": 'merchant',
                 // Nothing
+                ".+installerte ett gammelt strategi spill.+": 'nothing',
                 ".+tilbake tomhendt.+": 'nothing',
                 ".+fordi de ikke hadde nok Deuterium.+": 'nothing',
                 ".+store tomheten.+": 'nothing',
