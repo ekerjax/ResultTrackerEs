@@ -4,7 +4,7 @@
 // @author      Kalinka
 // @description Result Tracker for Ogame
 // @include     *ogame.gameforge.com/game/*
-// @version     0.5.0+no5
+// @version     0.5.1
 // @grant       GM_xmlhttpRequest
 // @require     https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js
 // @require     https://canvasjs.com/assets/script/canvasjs.min.js
@@ -638,6 +638,7 @@
                 saveDB(profitDBName, profitDB);
                 addExpoEntry('ship');
                 finishedReport();
+                addTextToMsgId(msgId, ml.expoTypes['ship']);
                 logged(msgId);
                 return;
             }
@@ -657,8 +658,10 @@
                 saveDB(profitDBName, profitDB);
                 if (resources.dm > 0) {
                     addExpoEntry('dm');
+                    addTextToMsgId(msgId, ml.expoTypes['dm']);
                 }
                 else {
+                    addTextToMsgId(msgId, ml.expoTypes['resource']);
                     addExpoEntry('resource');
                 }
                 finishedReport();
@@ -672,6 +675,12 @@
                     saveDB(profitDBName, profitDB);
                     addExpoEntry(ml.otherExpo[regex]);
                     finishedReport();
+                    if (ml.otherExpo[regex] === 'loss') {
+                        addTextToMsgId(msgId, ml.expoTypes[ml.otherExpo[regex]], 'red');
+                    } else {
+                        addTextToMsgId(msgId, ml.expoTypes[ml.otherExpo[regex]]);
+                    }
+
                     logged(msgId);
                     return;
                 }
@@ -878,9 +887,10 @@
      * Adds green Text to the end of a Report based on its msgId
      * @param msgId
      * @param text
+     * @param color
      */
-    function addTextToMsgId(msgId, text) {
-        const toAdd = '<span style="width:100%;float:left;color:green;">' + text + '</span><br>';
+    function addTextToMsgId(msgId, text, color = 'green') {
+        const toAdd = '<span style="width:100%;float:left;color:' + color + ';">' + text + '</span><br>';
         const messages = document.getElementsByClassName('msg');
         for (var element in messages) {
             if (typeof(messages[element]) == "undefined") {
