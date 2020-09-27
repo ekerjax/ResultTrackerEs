@@ -4,7 +4,7 @@
 // @author      Kalinka
 // @description Result Tracker for Ogame
 // @include     *ogame.gameforge.com/game/*
-// @version     0.5.1+no1
+// @version     0.5.1+no2
 // @grant       GM_xmlhttpRequest
 // @require     https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js
 // @require     https://canvasjs.com/assets/script/canvasjs.min.js
@@ -249,6 +249,7 @@
                 ".+kjedereaksjon+.": 'loss',
                 // Merchant
                 ".+ekslusive klient.+": 'merchant',
+                ".+en representant med ressurser.+": 'merchant',
                 // Nothing
                 ".+installerte ett gammelt strategi spill.+": 'nothing',
                 ".+tilbake tomhendt.+": 'nothing',
