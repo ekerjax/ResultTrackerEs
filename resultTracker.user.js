@@ -4,7 +4,7 @@
 // @author      Kalinka
 // @description Result Tracker for Ogame
 // @include     *ogame.gameforge.com/game/*
-// @version     0.5.1
+// @version     0.5.1+no1
 // @grant       GM_xmlhttpRequest
 // @require     https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js
 // @require     https://canvasjs.com/assets/script/canvasjs.min.js
@@ -231,12 +231,14 @@
             otherExpo: {
                 // Alien
                 ".+eksotisk seriemessige.+": 'alien',
+                ".+ukjent art.+": 'alien',
                 // Delay
                 ".+feilkalkullert.+": 'delay',
                 ".+ekspedisjonen ikke kan fortsette med skadene .+": 'delay',
                 ".+Fl.ten vil komme tilbake senere enn forventet.+": 'delay',
                 ".+returnere med en stor forsinkelse.+": 'delay',
                 ".+Hjemreisen vil ta litt lengre.+": 'delay',
+                ".+lengre tid enn ventet.+": 'delay',
                 // Item
                 ".+item.+": 'item',
                 ".+artefact.+": 'item',
@@ -265,6 +267,8 @@
                 ".+primitive barbarer.+": 'pirate',
                 ".+ pirater.+": 'pirate',
                 // Speedup
+                ".+kommer hjem litt.+": 'speedup',
+                ".+returner tidligere.+": 'speedup',
             },
             expoTypes: {
                 'alien': 'Alien/Romvesener',
