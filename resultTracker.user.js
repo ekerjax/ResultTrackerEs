@@ -4,7 +4,7 @@
 // @author      Kalinka
 // @description Result Tracker for Ogame
 // @include     *ogame.gameforge.com/game/*
-// @version     0.5.1+no3
+// @version     0.5.1+no4
 // @grant       GM_xmlhttpRequest
 // @require     https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js
 // @require     https://canvasjs.com/assets/script/canvasjs.min.js
@@ -232,6 +232,7 @@
                 // Alien
                 ".+eksotisk seriemessige.+": 'alien',
                 ".+ukjent art.+": 'alien',
+                ".+liten gruppe av ukjente skip.+": 'alien',
                 // Delay
                 ".+feilkalkullert.+": 'delay',
                 ".+ekspedisjonen ikke kan fortsette med skadene .+": 'delay',
