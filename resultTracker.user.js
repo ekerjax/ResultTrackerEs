@@ -4,7 +4,7 @@
 // @author      Kalinka
 // @description Result Tracker for Ogame
 // @include     *ogame.gameforge.com/game/*
-// @version     0.5.1+no4
+// @version     0.5.2
 // @grant       GM_xmlhttpRequest
 // @require     https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js
 // @require     https://canvasjs.com/assets/script/canvasjs.min.js
@@ -288,6 +288,41 @@
             },
             dateRegex: '(\\d{2})\\.(\\d{2})\\.(\\d{4}) (\\d{2}):(\\d{2}):(\\d{2})',
             dateKeys: [3, 2, 1, 4, 5, 6],
+        },
+        gr: {
+            resources: {
+                'metal': 'Μέταλλο',
+                'crystal': 'Κρύσταλλο',
+                'deuterium': 'Δευτέριο',
+                'dm': 'Αντιύλη'
+            },
+            otherExpo: {
+                // Alien
+                ".+Μερικά σκάφη με εντυπωσιακή εμφάνιση.+": 'alien',
+                // Delay
+                ".+καθυστερήσει λίγο παραπάνω.+": 'delay',
+                ".+αργότερα από το αναμενόμενο.+": 'delay',
+                // Nothing
+                ".+επιστρέψαμε πίσω με άδεια χέρια.+": 'nothing',
+                ".+ελώδη πλανήτη.+": 'nothing',
+                ".+ παλιό παιχνίδι στρατηγικής.+": 'nothing',
+                ".+αυτές οι αστρικές διαταραχές επιπέδου 5.+": 'nothing',
+                ".+κενό του διαστήματος.+": 'nothing',
+                ".+ελάχιστο Δευτέριο.+": 'nothing',
+            },
+            expoTypes: {
+                'alien': 'Alien',
+                'delay': 'Delay',
+                'item': 'Item',
+                'loss': 'Expedition Loss',
+                'merchant': 'Merchant',
+                'nothing': 'Nothing',
+                'pirate': 'Pirate',
+                'speedup': 'Speedup',
+                'dm': 'Dark Matter',
+                'resource': 'Resource',
+                'ship': 'Ships'
+            },
         }
     };
 
