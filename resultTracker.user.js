@@ -4,7 +4,7 @@
 // @author      Kalinka
 // @description Result Tracker for Ogame
 // @include     *ogame.gameforge.com/game/*
-// @version     0.5.2+gr1
+// @version     0.5.2+gr2
 // @grant       GM_xmlhttpRequest
 // @require     https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js
 // @require     https://canvasjs.com/assets/script/canvasjs.min.js
@@ -302,6 +302,8 @@
                 // Delay
                 ".+καθυστερήσει λίγο παραπάνω.+": 'delay',
                 ".+αργότερα από το αναμενόμενο.+": 'delay',
+                // Loss
+                ".+zzzzzzzzzzzzzzzzz.+": 'loss',
                 // Nothing
                 ".+επιστρέψαμε πίσω με άδεια χέρια.+": 'nothing',
                 ".+ελώδη πλανήτη.+": 'nothing',
@@ -688,7 +690,12 @@
             var resourceRegex;
             var resourceFound = false;
             for (var r in ml.resources) {
-                resourceRegex = ml.resources[r] + ' ([0-9\\.]{1,11}) [A-Za-z ]{3,40}\\.';
+                if (language === 'gr') {
+                    resourceRegex = ml.resources[r] + ' ([0-9\\.]{1,11}) αποκτήθηκαν\\.';
+                } else {
+                    resourceRegex = ml.resources[r] + ' ([0-9\\.]{1,11}) [A-Za-z ]{3,40}\\.';
+                }
+
                 if (content.search(resourceRegex) !== -1) {
                     match = content.match(resourceRegex);
                     resources[r] += parseInt(match[1].split('.').join(""));
