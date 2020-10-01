@@ -4,7 +4,7 @@
 // @author      Kalinka
 // @description Result Tracker for Ogame
 // @include     *ogame.gameforge.com/game/*
-// @version     0.5.2
+// @version     0.5.2+gr1
 // @grant       GM_xmlhttpRequest
 // @require     https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js
 // @require     https://canvasjs.com/assets/script/canvasjs.min.js
@@ -311,17 +311,17 @@
                 ".+ελάχιστο Δευτέριο.+": 'nothing',
             },
             expoTypes: {
-                'alien': 'Alien',
-                'delay': 'Delay',
-                'item': 'Item',
-                'loss': 'Expedition Loss',
-                'merchant': 'Merchant',
-                'nothing': 'Nothing',
-                'pirate': 'Pirate',
-                'speedup': 'Speedup',
-                'dm': 'Dark Matter',
-                'resource': 'Resource',
-                'ship': 'Ships'
+                'alien': 'Εξωγήινοι',
+                'delay': 'Καθυστέρηση',
+                'item': 'Αντικείμενο',
+                'loss': 'Χασιμο στόλου',
+                'merchant': 'Εμπορος',
+                'nothing': 'Τιποτα',
+                'pirate': 'Πειρατές',
+                'speedup': 'Επιτάχυνση',
+                'dm': 'Αντιύλη',
+                'resource': ' Πόροι',
+                'ship': 'Σκάφη '
             },
         }
     };
