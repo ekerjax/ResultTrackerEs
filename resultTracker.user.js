@@ -4,7 +4,7 @@
 // @author      Kalinka
 // @description Result Tracker for Ogame
 // @include     *ogame.gameforge.com/game/*
-// @version     0.5.2+gr3
+// @version     0.5.3
 // @grant       GM_xmlhttpRequest
 // @require     https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js
 // @require     https://canvasjs.com/assets/script/canvasjs.min.js
@@ -328,6 +328,8 @@
                 'resource': ' Πόροι',
                 'ship': 'Σκάφη '
             },
+            dateRegex: '(\\d{2})\\.(\\d{2})\\.(\\d{4}) (\\d{2}):(\\d{2}):(\\d{2})',
+            dateKeys: [3, 2, 1, 4, 5, 6],
         }
     };
 
