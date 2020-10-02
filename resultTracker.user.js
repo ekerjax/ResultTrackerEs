@@ -4,7 +4,7 @@
 // @author      Kalinka
 // @description Result Tracker for Ogame
 // @include     *ogame.gameforge.com/game/*
-// @version     0.5.3
+// @version     0.5.3+gr1
 // @grant       GM_xmlhttpRequest
 // @require     https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js
 // @require     https://canvasjs.com/assets/script/canvasjs.min.js
@@ -299,6 +299,7 @@
             otherExpo: {
                 // Alien
                 ".+Μερικά σκάφη με εντυπωσιακή εμφάνιση.+": 'alien',
+                ".+κάποια άγνωστης προέλευσης όντα.+": 'alien',
                 // Delay
                 ".+καθυστερήσει λίγο παραπάνω.+": 'delay',
                 ".+αργότερα από το αναμενόμενο.+": 'delay',
@@ -308,12 +309,14 @@
                 // Loss
                 ".+zzzzzzzzzzzzzzzzz.+": 'loss',
                 // Nothing
+                ".+Καλύτερη φωτογραφία του Σύμπαντος.+": 'nothing',
                 ".+επιστρέψαμε πίσω με άδεια χέρια.+": 'nothing',
                 ".+ελώδη πλανήτη.+": 'nothing',
                 ".+ παλιό παιχνίδι στρατηγικής.+": 'nothing',
                 ".+αυτές οι αστρικές διαταραχές επιπέδου 5.+": 'nothing',
                 ".+κενό του διαστήματος.+": 'nothing',
                 ".+ελάχιστο Δευτέριο.+": 'nothing',
+                ".+πεδίο βαρύτητας ενός.+": 'nothing',
             },
             expoTypes: {
                 'alien': 'Εξωγήινοι',
