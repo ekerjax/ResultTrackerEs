@@ -4,7 +4,7 @@
 // @author      Kalinka
 // @description Result Tracker for Ogame
 // @include     *ogame.gameforge.com/game/*
-// @version     0.5.3+gr1
+// @version     0.5.3+gr2
 // @grant       GM_xmlhttpRequest
 // @require     https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js
 // @require     https://canvasjs.com/assets/script/canvasjs.min.js
@@ -304,11 +304,14 @@
                 ".+καθυστερήσει λίγο παραπάνω.+": 'delay',
                 ".+αργότερα από το αναμενόμενο.+": 'delay',
                 ".+επιστρέψει με μεγάλη καθυστέρηση.+": 'delay',
+                ".+θα καθυστερήσει.+": 'delay',
+                ".+περισσότερο χρόνο για να επιστρέψει.+": 'delay',
                 // Item
                 ".+αντικείμενο.+": 'item',
                 // Loss
                 ".+zzzzzzzzzzzzzzzzz.+": 'loss',
                 // Nothing
+                ".+Τα γενέθλια του καπετάνιου.+": 'nothing',
                 ".+Καλύτερη φωτογραφία του Σύμπαντος.+": 'nothing',
                 ".+επιστρέψαμε πίσω με άδεια χέρια.+": 'nothing',
                 ".+ελώδη πλανήτη.+": 'nothing',
@@ -317,6 +320,10 @@
                 ".+κενό του διαστήματος.+": 'nothing',
                 ".+ελάχιστο Δευτέριο.+": 'nothing',
                 ".+πεδίο βαρύτητας ενός.+": 'nothing',
+                ".+μουσεία από τον κεντρικό σας πλανήτη.+": 'nothing',
+                // Pirate
+                ".+πειρατές.+": 'pirate',
+                ".+μεθυσμένους αστροπειρατές.+": 'pirate',
             },
             expoTypes: {
                 'alien': 'Εξωγήινοι',
