@@ -4,7 +4,7 @@
 // @author      Kalinka
 // @description Result Tracker for Ogame
 // @include     *ogame.gameforge.com/game/*
-// @version     0.5.3+gr4+no1
+// @version     0.5.3+gr5+no1
 // @grant       GM_xmlhttpRequest
 // @require     https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js
 // @require     https://canvasjs.com/assets/script/canvasjs.min.js
@@ -321,13 +321,13 @@
                 ".+ελάχιστο Δευτέριο.+": 'nothing',
                 ".+πεδίο βαρύτητας ενός.+": 'nothing',
                 ".+μουσεία από τον κεντρικό σας πλανήτη.+": 'nothing',
-                ".+δεν έφερε κάτι καινούριο.+": 'nothing',
                 // Pirate
                 ".+πειρατές.+": 'pirate',
                 ".+μεθυσμένους αστροπειρατές.+": 'pirate',
                 // Speedup
                 ".+επιστρέφει νωρίτερα από το αναμενόμενο.+": 'speedup',
                 ".+σας θα γυρίσει νωρίτερα.+": 'speedup',
+                ".+σκουληκότρυπας.+": 'speedup',
             },
             expoTypes: {
                 'alien': 'Εξωγήινοι',
