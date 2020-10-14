@@ -4,7 +4,7 @@
 // @author      Kalinka
 // @description Result Tracker for Ogame
 // @include     *ogame.gameforge.com/game/*
-// @version     0.5.3+gr9+no2
+// @version     0.5.3+gr10+no2
 // @grant       GM_xmlhttpRequest
 // @require     https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js
 // @require     https://canvasjs.com/assets/script/canvasjs.min.js
@@ -314,6 +314,8 @@
                 // Loss
                 ".+zzzzzzzzzzzzzzzzz.+": 'loss',
                 ".+πυρηνική έκρηξη κατάστρεψε.+": 'loss',
+                // Merchant
+                ".+αποκλειστικός του πελάτης.+": 'merchant',
                 // Nothing
                 ".+Τα γενέθλια του καπετάνιου.+": 'nothing',
                 ".+Καλύτερη φωτογραφία του Σύμπαντος.+": 'nothing',
