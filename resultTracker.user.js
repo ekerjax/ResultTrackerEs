@@ -4,7 +4,7 @@
 // @author      Kalinka
 // @description Result Tracker for Ogame
 // @include     *ogame.gameforge.com/game/*
-// @version     0.5.3+gr10+no2
+// @version     0.5.4
 // @grant       GM_xmlhttpRequest
 // @require     https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js
 // @require     https://canvasjs.com/assets/script/canvasjs.min.js
@@ -697,7 +697,7 @@
             var shipFound = false;
             var shipList = getEmptyShipList();
             for (var ship in shipDB) {
-                shipRegex = ship + ': (\\d+)\\<br\\>'
+                shipRegex = ship + ': (\\d+)(\\<br\\>)?'
                 if (content.search(shipRegex) !== -1) {
                     match = content.match(shipRegex);
                     shipList[shipDB[ship]] += parseInt(match[1]);
