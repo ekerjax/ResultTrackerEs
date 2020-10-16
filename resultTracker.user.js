@@ -4,7 +4,7 @@
 // @author      Kalinka
 // @description Result Tracker for Ogame
 // @include     *ogame.gameforge.com/game/*
-// @version     0.5.4
+// @version     0.5.4+gr1
 // @grant       GM_xmlhttpRequest
 // @require     https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js
 // @require     https://canvasjs.com/assets/script/canvasjs.min.js
@@ -12,6 +12,15 @@
 // @updateURL https://github.com/COhsrt/ResultTracker/raw/master/resultTracker.user.js
 // @downloadURL https://github.com/COhsrt/ResultTracker/raw/master/resultTracker.user.js
 // ==/UserScript==
+/*
+TODOS:
+  - use indexedDB
+  - show expedition outcome average
+  - show combat outcome average
+
+ */
+
+
 "use strict";
 (function() {
     // No Raid Tracker on Fleetdispatch
@@ -313,6 +322,7 @@
                 ".+αντικείμενο.+": 'item',
                 // Loss
                 ".+zzzzzzzzzzzzzzzzz.+": 'loss',
+                ".+ότι ο στόλος χάθηκε για.+": 'loss',
                 ".+πυρηνική έκρηξη κατάστρεψε.+": 'loss',
                 // Merchant
                 ".+αποκλειστικός του πελάτης.+": 'merchant',
