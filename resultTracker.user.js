@@ -4,7 +4,7 @@
 // @author      Kalinka
 // @description Result Tracker for Ogame
 // @include     *ogame.gameforge.com/game/*
-// @version     0.5.4+gr1
+// @version     0.5.5
 // @grant       GM_xmlhttpRequest
 // @require     https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js
 // @require     https://canvasjs.com/assets/script/canvasjs.min.js
@@ -444,9 +444,11 @@ TODOS:
             genStats('24 Hours:', 'd') +
             genStats('7 Days:', 'w') +
             genStats('28 Days:', 'm') +
-            "<div>" +
-            "<a class='btn_blue' id='openExpoChart'>Expo Stats Chart</a>" +
-            "</div>";
+            "<div>";
+        if (window.location.href.indexOf("messages") === -1) {
+            html += "<a class='btn_blue' id='openExpoChart'>Expo Stats Chart</a>";
+        }
+        html += "</div>";
         if (((localStorage.getItem('NRT_dfDB') != null) && localStorage.getItem('NRT_dfDB').length > 50) ||
             ((localStorage.getItem('NRT_profitDB') != null) &&localStorage.getItem('NRT_profitDB').length > 50) ||
             ((localStorage.getItem('NET_profitDB') != null) &&localStorage.getItem('NET_profitDB').length > 50)) {
@@ -467,9 +469,11 @@ TODOS:
             const hours = parseInt(document.getElementById('specificTime').value);
             calcLastHours(hours, 's');
         });
-        document.getElementById('openExpoChart').addEventListener('click', function() {
-            createExpoChart();
-        });
+        if (window.location.href.indexOf("messages") !== -1) {
+            document.getElementById('openExpoChart').addEventListener('click', function () {
+                createExpoChart();
+            });
+        }
         if (nixian) {
             document.getElementById('importNixian').addEventListener('click', function() {
                 import_NET_profitDB();
@@ -488,7 +492,7 @@ TODOS:
         var total = 0;
         var type;
         const stats = [];
-        const body = document.getElementById('ingamepage');
+        const body = document.getElementById('ingamepage')
         var container = document.createElement('div');
         var titlebar = document.createElement('div');
         var titleSpan = document.createElement('span');
