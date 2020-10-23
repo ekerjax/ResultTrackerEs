@@ -4,7 +4,7 @@
 // @author      Kalinka
 // @description Result Tracker for Ogame
 // @include     *ogame.gameforge.com/game/*
-// @version     0.5.5
+// @version     0.5.6
 // @grant       GM_xmlhttpRequest
 // @require     https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js
 // @require     https://canvasjs.com/assets/script/canvasjs.min.js
@@ -393,10 +393,11 @@ TODOS:
         if (Object.keys(shipDB).length === 0) {
             genShipDB();
         }
-        createProfitTable();
+
         if (window.location.search.indexOf("?page=messages") !== -1){
             createButtonMessages();
         }
+        createProfitTable();
     }
 
     /**
@@ -469,7 +470,7 @@ TODOS:
             const hours = parseInt(document.getElementById('specificTime').value);
             calcLastHours(hours, 's');
         });
-        if (window.location.href.indexOf("messages") !== -1) {
+        if (window.location.href.indexOf("messages") === -1) {
             document.getElementById('openExpoChart').addEventListener('click', function () {
                 createExpoChart();
             });
