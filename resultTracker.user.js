@@ -4,7 +4,7 @@
 // @author      Kalinka
 // @description Result Tracker for Ogame
 // @include     *ogame.gameforge.com/game/*
-// @version     0.5.6
+// @version     0.5.6+gr1
 // @grant       GM_xmlhttpRequest
 // @require     https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js
 // @require     https://canvasjs.com/assets/script/canvasjs.min.js
@@ -318,6 +318,7 @@ TODOS:
                 ".+θα καθυστερήσει.+": 'delay',
                 ".+περισσότερο χρόνο για να επιστρέψει.+": 'delay',
                 ".+Μόλις ολοκληρωθούν οι απαραίτητες επισκευές.+": 'delay',
+                ".+μεγάλη καθυστέρηση.+": 'delay',
                 // Item
                 ".+αντικείμενο.+": 'item',
                 // Loss
