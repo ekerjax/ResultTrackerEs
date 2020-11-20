@@ -80,6 +80,7 @@ TODOS:
                 ".+erheblich mehr Zeit.+": 'delay',
                 ".+Das fremde Schiff explodierte.+": 'delay',
                 ".+das gesamte Deuterium.+": 'delay',
+                ".+dass es einige Zeit dauerte.+": 'delay',
                 // Item
                 ".+Gegenstand.+": 'item',
                 ".+Artefakt.+": 'item',
