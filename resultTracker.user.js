@@ -4,7 +4,7 @@
 // @author      Kalinka
 // @description Result Tracker for Ogame
 // @include     *ogame.gameforge.com/game/*
-// @version     0.5.7+en1
+// @version     0.5.7+en1+no1
 // @grant       GM_xmlhttpRequest
 // @require     https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js
 // @require     https://canvasjs.com/assets/script/canvasjs.min.js
@@ -243,6 +243,7 @@ TODOS:
                 ".+ukjent art.+": 'alien',
                 ".+liten gruppe av ukjente skip.+": 'alien',
                 ".+romvesen innvasjons.+": 'alien',
+                ".+aggressiv krigersk romvesen rase.+": 'alien',
                 // Delay
                 ".+feilkalkullert.+": 'delay',
                 ".+ekspedisjonen ikke kan fortsette med skadene .+": 'delay',
