@@ -4,7 +4,7 @@
 // @author      Kalinka
 // @description Result Tracker for Ogame
 // @include     *ogame.gameforge.com/game/*
-// @version     0.5.7+en1+no1
+// @version     0.5.8+es1
 // @grant       GM_xmlhttpRequest
 // @require     https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js
 // @require     https://canvasjs.com/assets/script/canvasjs.min.js
@@ -135,24 +135,69 @@ TODOS:
         },
         es: {
             resources: {
-                'metal': 'Metal',
-                'crystal': 'Cristal',
-                'deuterium': 'Deuterio',
-                'dm': 'Materia Oscura'
+                'metal': 'Metal de',
+                'crystal': 'Cristal de',
+                'deuterium': 'Deuterio de',
+                'dm': 'Materia Oscura de'
             },
-            otherExpo: {},
+            otherExpo: {
+                // Alien
+                ".+exótico aspecto.+": 'alien',
+                ".+especie desconocida.+": 'alien',
+                ".+naves sin identificar.+": 'alien',
+                ".+identificar a los agresores.+": 'alien',
+                ".+alienígena desconocida.+": 'alien',
+                // Delay
+                ".+gran retraso.+": 'delay',
+                ".+necesitará un tiempo.+": 'delay',
+                ".+llevar más tiempo.+": 'delay',
+                ".+flota se retrasa.+": 'delay',
+                ".+necesitará mucho más tiempo.+": 'delay',
+                ".+flota iniciará el viaje de vuelta.+": 'delay',
+                // Item
+                ".+item.+": 'item',
+                // Loss
+                ".+destruyó espectacularmente la flota.+": 'loss',
+                ".+Krrrzzzzt.+": 'loss',
+                ".+agujero negro.+": 'loss',
+                ".+se perdió para siempre.+": 'loss',
+                // Merchant
+                ".+cliente exclusivo.+": 'merchant',
+                ".+representante con bienes comerciales.+": 'merchant',
+                // Nothing
+                ".+Un ser de pura energía.+": 'nothing',
+                ".+siendo emitidas desde una vieja sonda.+": 'nothing',
+                ".+mejor foto del universo este año!.+": 'nothing',
+                ".+escasez de personal.+": 'nothing',
+                ".+no ha descubierto mucho más.+": 'nothing',
+                ".+no fue realmente satisfactoria.+": 'nothing',
+                ".+juego de estrategia.+": 'nothing',
+                ".+manos vacías.+": 'nothing',
+                ".+vacío del espacio.+": 'nothing',
+                ".+sin ningún resultado.+": 'nothing',
+                ".+no trae nada interesante.+": 'nothing',
+                ".+sin haber conseguido nada.+": 'nothing',
+                // Pirates
+                ".+piratas.+": 'pirate',
+                ".+bárbaros primitivos.+": 'pirate',
+                ".+bucaneros estelares.+": 'pirate',
+                // Speedup
+                ".+agujero de gusano.+": 'speedup',
+                ".+aceleró la vuelta.+": 'speedup',
+                ".+aceleró enormemente.+": 'speedup'
+            },
             expoTypes: {
-                'alien': '',
-                'delay': '',
-                'item': '',
-                'loss': '',
-                'merchant': '',
-                'nothing': '',
-                'pirate': '',
-                'speedup': '',
-                'dm': ' ',
-                'resource': '',
-                'ship': ''
+                'alien': 'Aliens',
+                'delay': 'Retraso',
+                'item': 'Objeto',
+                'loss': 'Pérdida de flota',
+                'merchant': 'Mercader',
+                'nothing': 'Nada',
+                'pirate': 'Piratas',
+                'speedup': 'Aceleración',
+                'dm': 'Materia Oscura',
+                'resource': 'Recursos',
+                'ship': 'Naves'
             },
             dateRegex: '(\\d{2})\\.(\\d{2})\\.(\\d{4}) (\\d{2}):(\\d{2}):(\\d{2})',
             dateKeys: [3, 2, 1, 4, 5, 6],
@@ -737,7 +782,11 @@ TODOS:
             for (var r in ml.resources) {
                 if (language === 'gr') {
                     resourceRegex = ml.resources[r] + ' ([0-9\\.]{1,11}) αποκτήθηκαν\\.';
-                } else {
+                }
+                if (language === 'es') {
+                    resourceRegex = ml.resources[r] + ' ([0-9\\.]{1,11}).';
+                }
+                else {
                     resourceRegex = ml.resources[r] + ' ([0-9\\.]{1,11}) [A-Za-z ]{3,40}\\.';
                 }
 
